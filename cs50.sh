@@ -93,9 +93,6 @@ fi
 # Interactive shells
 if [ "$PS1" ]; then
 
-    # MOTD
-    cat /etc/motd
-
     # Prompt
     PS1='\[$(printf "\x0f")\033[01;34m\]\[\033[00m\]$(__git_ps1 " (%s)") $ '
 
@@ -122,9 +119,6 @@ if [ "$PS1" ]; then
     export EDITOR=nano
 
 fi
-EOF
-cat << EOF > /etc/motd
-This is CS50 Sandbox.
 EOF
 
 # TODO
