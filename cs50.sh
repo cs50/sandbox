@@ -41,7 +41,6 @@ apt-get update && \
         python3 \
         python3-dev \
         python3-pip \
-        r-base \
         rpm \
         ruby `# 2.3 for now, hopefully 2.5 with Ubuntu 18.04` \
         s3cmd \
@@ -72,6 +71,14 @@ pip3 install \
     awscli \
     Flask \
     Flask-Session
+
+# R-specific
+# https://www.rstudio.com/products/rstudio/download/#download
+#DEBIAN_FRONTEND=noninteractive apt-get install -y libgstreamer1.0-0 libjpeg62 r-base
+curl -o /tmp/rstudio-xenial-1.1.447-amd64.deb https://download1.rstudio.org/rstudio-xenial-1.1.447-amd64.deb && \
+    (dpkg -i /tmp/rstudio-xenial-1.1.447-amd64.deb || true) && \
+    rm -f /tmp/rstudio-xenial-1.1.447-amd64.deb && \
+    DEBIAN_FRONTEND=noninteractive apt-get --fix-broken install -y
 
 # CS50-specific
 add-apt-repository ppa:cs50/ppa && \
