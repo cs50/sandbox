@@ -187,13 +187,14 @@ if [[ "$1" == "run" ]]; then
     done
 
     # kill any process listing on the specified port
+    # regex to handle -pxxxx, -p xxxx, --port xxxx, --port=xxxx
     fuser --kill "${port//[^0-9]}/tcp" &> /dev/null
 
     # spawn flask
     script --flush --quiet --return /dev/null --command "FLASK_APP=\"$FLASK_APP\" FLASK_DEBUG=\"$FLASK_DEBUG\" /usr/local/bin/flask run $host $port $reload $threads $options" |
         while IFS= read -r line
         do
-            # rewrite address as hostname50
+            # rewrite address as localhost
             echo "$line" | sed "s#\( *Running on http://\)[^:]\+\(:.\+\)#\1localhost\2#"
         done
 else
@@ -208,8 +209,7 @@ a="-a 0.0.0.0"
 c="-c-1"
 cors="--cors"
 i="-i false"
-port="8080"
-p="-p $port"
+port="-p 8080"
 options="--no-dotfiles"
 
 # override default options
@@ -229,9 +229,11 @@ do
         i="$1 $2"
         shift
         shift
-    elif [[ "$1" =~ ^-p$ ]]; then
-        port="$2"
-        p="$1 $port"
+    elif [[ "$1" =~ ^-p[^\s]+ ]]; then
+        port="$1"
+        shift
+    elif [[ "$1" == "-p" ]]; then
+        port="$1 $2"
         shift
         shift
     else
@@ -241,10 +243,11 @@ do
 done
 
 # kill any process listing on the specified port
+# regex to handle -pxxxx, -p xxxx
 fuser --kill "${port//[^0-9]}/tcp" &> /dev/null
 
 # spawn http-server, retaining colorized output
-script --flush --quiet --return /dev/null --command "/usr/local/bin/http-server $a $c $cors $i $p $options" |
+script --flush --quiet --return /dev/null --command "/usr/local/bin/http-server $a $c $cors $i $port $options" |
     while IFS= read -r line
     do
         # rewrite address(es) as localhost
