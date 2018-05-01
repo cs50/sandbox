@@ -74,7 +74,7 @@ pip3 install \
 
 # R-specific
 # https://www.rstudio.com/products/rstudio/download/#download
-#DEBIAN_FRONTEND=noninteractive apt-get install -y libgstreamer1.0-0 libjpeg62 r-base
+DEBIAN_FRONTEND=noninteractive apt-get install -y libgstreamer1.0-0 libjpeg62 libxslt-dev r-base
 curl -o /tmp/rstudio-xenial-1.1.447-amd64.deb https://download1.rstudio.org/rstudio-xenial-1.1.447-amd64.deb && \
     (dpkg -i /tmp/rstudio-xenial-1.1.447-amd64.deb || true) && \
     rm -f /tmp/rstudio-xenial-1.1.447-amd64.deb && \
