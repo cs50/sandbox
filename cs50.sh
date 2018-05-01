@@ -63,7 +63,7 @@ curl -o /tmp/hub-linux-amd64-2.2.9.tgz https://github.com/github/hub/releases/do
     rm -rf /tmp/hub-linux-amd64-2.2.9 /tmp/hub-linux-amd64-2.2.9.tgz
 
 # Node.js-specific
-npm install -g n && n 9.8.0
+npm install -g n && n 10.0.0
 npm install -g http-server
 
 # Python-specific
