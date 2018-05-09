@@ -101,8 +101,10 @@ COPY flask http-server /opt/bin/
 RUN chmod a+rx /opt/bin/*
 
 # TODO
-RUN useradd --home-dir /root/sandbox --shell /bin/bash ubuntu && \
+RUN useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
     umask 0077 && \
-    mkdir -p /root/sandbox && \
-    chown -R ubuntu:ubuntu /root/sandbox
+    mkdir -p /home/ubuntu && \
+    chown -R ubuntu:ubuntu /home/ubuntu
+USER ubuntu
+WORKDIR /home/ubuntu
 CMD bash -l

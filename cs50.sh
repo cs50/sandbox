@@ -7,7 +7,7 @@ fi
 if [ "$PS1" ]; then
 
     # Prompt
-    PS1='\[$(printf "\x0f")\033[01;34m\]\[\033[00m\]$(__git_ps1 " (%s)") $ '
+    PS1='\[$(printf "\x0f")\033[01;34m\]\[\033[00m\]$(__git_ps1 " (%s)")$ '
 
     # Override HOME for cd if ~/workspace exists
     cd()
