@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# flask run
+if [[ "$1" == "run" ]]; then
+
+    # otherwise FLASK_DEBUG=1 suppresses this error in shell
+    if [[ ! -z "$FLASK_APP" && ! -f "$FLASK_APP" ]]; then
+        echo "Usage: flask run [OPTIONS]"
+        echo
+        echo "Error: The file/path provided ($FLASK_APP) does not appear to exist.  Please verify the path is correct.  If app is not on PYTHONPATH, ensure the extension is .py"
+        exit 1
+    fi
+
+    # default options
+    debugger="--no-debugger"
+    host="--host=0.0.0.0"
+    port="--port=5000"
+    reload="--reload"
+
+    # remove when https://github.com/miguelgrinberg/Flask-SocketIO/pull/659 is merged
+    if /usr/local/bin/flask run --help | grep --quiet -- "--with-threads"; then
+        threads="--with-threads";
+    fi
+
+    options=""
+
+    # override default options
+    shift
+    while test ${#} -gt 0
+    do
+        if [[ "$1" =~ ^--(no-)?debugger$ ]]; then
+            debugger="$1"
+        elif [[ "$1" =~ ^--host= || "$1" =~ ^-h[^\s]+ ]]; then
+            host="$1"
+        elif [[ "$1" == "-h" || "$1" == "--host" ]]; then
+            host="$1 $2"
+            shift
+        elif [[ "$1" =~ ^--port= || "$1" =~ ^-p[^\s]+ ]]; then
+            port="$1"
+        elif [[ "$1" == "-p" || "$1" == "--port"  ]]; then
+            port="$1 $2"
+            shift
+        elif [[ "$1" =~ ^--(no-)?reload$ ]]; then
+            reload="$1"
+        elif [[ "$1" =~ ^--with(out)?-threads$ ]]; then
+            threads="$1"
+        else
+            options+=" $1"
+        fi
+        shift
+    done
+
+    # kill any process listing on the specified port
+    # regex to handle -pxxxx, -p xxxx, --port xxxx, --port=xxxx
+    fuser --kill "${port//[^0-9]}/tcp" &> /dev/null
+
+    # spawn flask
+    script --flush --quiet --return /dev/null --command "FLASK_APP=\"$FLASK_APP\" FLASK_DEBUG=\"$FLASK_DEBUG\" /usr/local/bin/flask run $debugger $host $port $reload $threads $options" |
+        while IFS= read -r line
+        do
+            # rewrite address as localhost
+            echo "$line" | sed "s#\( *Running on http://\)[^:]\+\(:.\+\)#\1localhost\2#"
+        done
+else
+    /usr/local/bin/flask "$@"
+fi
