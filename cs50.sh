@@ -95,10 +95,11 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
     /opt/pyenv/bin/pyenv install 3.6.0 && \
     /opt/pyenv/bin/pyenv rehash && \
     /opt/pyenv/bin/pyenv global 3.6.0
-PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip install \
-    awscli \
-    Flask \
-    Flask-Session
+PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip install --upgrade pip &&
+    pip install \
+        awscli \
+        Flask \
+        Flask-Session
 
 # Ruby-specific
 # https://github.com/rbenv/rbenv/blob/master/README.md#installation
