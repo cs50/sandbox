@@ -153,6 +153,9 @@ if [ "$(id -u)" != "0" ]; then
     umask 0077
 fi
 
+# PATH
+export PATH=/opt/cs50/bin:/usr/local/sbin:/usr/local/bin:"$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
 # Interactive shells
 if [ "$PS1" ]; then
 
@@ -330,9 +333,6 @@ script --flush --quiet --return /dev/null --command "/usr/local/bin/http-server 
     done
 EOF
 chmod a+rx /opt/bin/*
-
-PATH=/opt/cs50/bin:/usr/local/sbin:/usr/local/bin:"$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
-sed -e "s|^PATH=.*$|PATH='$PATH'|g" -i /etc/environment
 
 # Ubuntu-specific
 useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
