@@ -27,7 +27,6 @@ apt-get update && \
         nano \
         npm \
         ocaml \
-        openjdk-9-jdk \
         openjdk-9-jre \
         perl \
         php-cli \
@@ -35,12 +34,6 @@ apt-get update && \
         php-gmp \
         php-intl \
         php-mcrypt \
-        python \
-        python-dev \
-        python-pip \
-        python3 \
-        python3-dev \
-        python3-pip \
         rpm \
         ruby `# 2.3 for now, hopefully 2.5 with Ubuntu 18.04` \
         s3cmd \
@@ -53,10 +46,22 @@ apt-get update && \
         vim \
         wget \
         zip && \
+        DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-overwrite" install openjdk-9-jdk `# https://askubuntu.com/a/772485` && \
     apt-file update
 
 # Git-specific
-git lfs install
+# https://packagecloud.io/github/git-lfs/install#manual-deb
+# https://github.com/github/hub/releases
+DEBIAN_FRONTEND=noninteractive apt-get install -y curl gnupg && \
+    curl -L https://packagecloud.io/github/git-lfs/gpgkey | apt-key add - && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y debian-archive-keyring && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https && \
+    echo "deb https://packagecloud.io/github/git-lfs/ubuntu/ xenial main" > /etc/apt/sources.list.d/github_git-lfs.list && \
+    echo "deb-src https://packagecloud.io/github/git-lfs/ubuntu/ xenial main" >> /etc/apt/sources.list.d/github_git-lfs.list && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs && \
+    git lfs install
 curl -L -o /tmp/hub-linux-amd64-2.2.9.tgz -s https://github.com/github/hub/releases/download/v2.2.9/hub-linux-amd64-2.2.9.tgz && \
     tar xzf /tmp/hub-linux-amd64-2.2.9.tgz -C /tmp && \
     /tmp/hub-linux-amd64-2.2.9/install && \
@@ -66,10 +71,59 @@ curl -L -o /tmp/hub-linux-amd64-2.2.9.tgz -s https://github.com/github/hub/relea
 npm install -g http-server n && n 10.0.0
 
 # Python-specific
-pip3 install \
+# https://github.com/yyuu/pyenv/blob/master/README.md#installation
+# https://github.com/yyuu/pyenv/wiki/Common-build-problems
+export PYENV_ROOT=/opt/pyenv
+DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        build-essential \
+        curl \
+        libbz2-dev \
+        libncurses5-dev \
+        libncursesw5-dev \
+        libreadline-dev \
+        libsqlite3-dev \
+        libssl-dev \
+        llvm \
+        wget \
+        xz-utils \
+        zlib1g-dev && \
+    wget -P /tmp https://github.com/yyuu/pyenv/archive/master.zip && \
+    unzip -d /tmp /tmp/master.zip && \
+    rm -f /tmp/master.zip && \
+    mv /tmp/pyenv-master /opt/pyenv && \
+    chmod a+x /opt/pyenv/bin/pyenv && \
+    /opt/pyenv/bin/pyenv install 3.6.0 && \
+    /opt/pyenv/bin/pyenv rehash && \
+    /opt/pyenv/bin/pyenv global 3.6.0
+PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip install \
     awscli \
     Flask \
     Flask-Session
+
+# Ruby-specific
+# https://github.com/rbenv/rbenv/blob/master/README.md#installation
+# https://github.com/rbenv/ruby-build/blob/master/README.md
+export RBENV_ROOT=/opt/rbenv
+DEBIAN_FRONTEND=noninteractive apt-get install -y libreadline-dev zlib1g-dev && \
+    wget -P /tmp https://github.com/rbenv/rbenv/archive/master.zip && \
+    unzip -d /tmp /tmp/master.zip && \
+    rm -f /tmp/master.zip && \
+    mv /tmp/rbenv-master /opt/rbenv && \
+    chmod a+x /opt/rbenv/bin/rbenv && \
+    wget -P /tmp https://github.com/rbenv/ruby-build/archive/master.zip && \
+    unzip -d /tmp /tmp/master.zip && \
+    rm -f /tmp/master.zip && \
+    mkdir /opt/rbenv/plugins && \
+    mv /tmp/ruby-build-master /opt/rbenv/plugins/ruby-build && \
+    /opt/rbenv/bin/rbenv install 2.4.0 && \
+    /opt/rbenv/bin/rbenv rehash && \
+    /opt/rbenv/bin/rbenv global 2.4.0
+PATH="$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PATH" gem install \
+        asciidoctor \
+        bundler \
+        fpm \
+        jekyll-asciidoc \
+        pygments.rb
 
 # R-specific
 # https://www.rstudio.com/products/rstudio/download/#download
@@ -83,13 +137,13 @@ curl -L -o /tmp/rstudio-xenial-1.1.447-amd64.deb -s https://download1.rstudio.or
 add-apt-repository ppa:cs50/ppa && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y astyle libcs50
-pip3 install \
-    cs50 \
-    check50 \
-    help50 \
-    render50 \
-    style50 \
-    submit50
+PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip install \
+        cs50 \
+        check50 \
+        help50 \
+        render50 \
+        style50 \
+        submit50
 
 # Bash-specific
 cat <<'EOF' > /etc/profile.d/cs50.sh
@@ -134,7 +188,6 @@ if [ "$PS1" ]; then
     export LANGUAGE=C.UTF-8
     export LC_ALL=C.UTF-8
     export LDLIBS="-lcrypt -lcs50 -lm"
-    export PATH=/opt/bin:"$PATH"
 
 fi
 EOF
@@ -276,6 +329,9 @@ script --flush --quiet --return /dev/null --command "/usr/local/bin/http-server 
     done
 EOF
 chmod a+rx /opt/bin/*
+
+PATH=/opt/cs50/bin:/usr/local/sbin:/usr/local/bin:"$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
+sed -e "s|^PATH=.*$|PATH='$PATH'|g" -i /etc/environment
 
 # Ubuntu-specific
 useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
