@@ -339,3 +339,4 @@ useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
     umask 0077 && \
     mkdir -p /home/ubuntu && \
     chown -R ubuntu:ubuntu /home/ubuntu
+ls -d1 /root/.[^.]* | xargs rm -rf
