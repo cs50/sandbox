@@ -135,7 +135,7 @@ curl -L -o /tmp/rstudio-xenial-1.1.447-amd64.deb -s https://download1.rstudio.or
     DEBIAN_FRONTEND=noninteractive apt-get --fix-broken install -y
 
 # CS50-specific
-add-apt-repository ppa:cs50/ppa && \
+add-apt-repository -y ppa:cs50/ppa && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y astyle libcs50
 PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip install \
