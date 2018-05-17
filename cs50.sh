@@ -154,13 +154,12 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # PATH
+export RBENV_ROOT=/opt/rbenv
+export PYENV_ROOT=/opt/pyenv
 export PATH=/opt/cs50/bin:/usr/local/sbin:/usr/local/bin:"$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Interactive shells
 if [ "$PS1" ]; then
-
-    # Prompt
-    PS1='\[$(printf "\x0f")\033[01;34m\]\[\033[00m\]$(__git_ps1 " (%s)")$ '
 
     # Override HOME for cd if ~/workspace exists
     cd()
@@ -193,6 +192,12 @@ if [ "$PS1" ]; then
     export LC_ALL=C.UTF-8
     export LDLIBS="-lcrypt -lcs50 -lm"
 
+fi
+EOF
+mkdir -p /root/.bashrcs
+cat <<'EOF' > /root/.bashrcs/cs50.sh
+if [ "$PS1" ]; then
+    export PS1='$ '
 fi
 EOF
 
@@ -339,4 +344,3 @@ useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
     umask 0077 && \
     mkdir -p /home/ubuntu && \
     chown -R ubuntu:ubuntu /home/ubuntu
-ls -d1 /root/.[^.]* | xargs rm -rf
