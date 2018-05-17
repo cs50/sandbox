@@ -53,7 +53,7 @@ apt-get update && \
 # https://packagecloud.io/github/git-lfs/install#manual-deb
 # https://github.com/github/hub/releases
 DEBIAN_FRONTEND=noninteractive apt-get install -y curl gnupg && \
-    curl -L https://packagecloud.io/github/git-lfs/gpgkey | apt-key add - && \
+    curl -L https://packagecloud.io/github/git-lfs/gpgkey | apt-key add -y - && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y debian-archive-keyring && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https && \
