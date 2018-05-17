@@ -147,7 +147,8 @@ PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip install \
         submit50
 
 # Bash-specific
-cat <<'EOF' > /etc/profile.d/cs50.sh
+mkdir -p /root/.bashrcs
+cat <<'EOF' > /root/.bashrcs/cs50.sh
 # File mode creation mask
 if [ "$(id -u)" != "0" ]; then
     umask 0077
@@ -161,6 +162,9 @@ export PATH=/opt/cs50/bin:/usr/local/sbin:/usr/local/bin:"$RBENV_ROOT"/shims:"$R
 # Interactive shells
 if [ "$PS1" ]; then
 
+    # Simplify prompt
+
+    export PS1='$ '
     # Override HOME for cd if ~/workspace exists
     cd()
     {
@@ -192,12 +196,6 @@ if [ "$PS1" ]; then
     export LC_ALL=C.UTF-8
     export LDLIBS="-lcrypt -lcs50 -lm"
 
-fi
-EOF
-mkdir -p /root/.bashrcs
-cat <<'EOF' > /root/.bashrcs/cs50.sh
-if [ "$PS1" ]; then
-    export PS1='$ '
 fi
 EOF
 
