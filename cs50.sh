@@ -137,7 +137,22 @@ echo "deb https://cran.cnr.berkeley.edu/bin/linux/ubuntu xenial/" > /etc/apt/sou
     wget -P /tmp https://download2.rstudio.org/rstudio-server-1.1.453-amd64.deb && \
     DEBIAN_FRONTEND=noninteractive echo "y" | gdebi /tmp/rstudio-server-1.1.453-amd64.deb && \
     rm -f /tmp/rstudio-server-1.1.453-amd64.deb && \
+    echo "session-timeout-minutes=0" >> /etc/rstudio/rserver.conf && \
     echo "server-app-armor-enabled=0" >> /etc/rstudio/rserver.conf
+cat <<'EOF' > /etc/rstudio/login.html
+<script>
+
+    window.onload = function() {
+        document.getElementById('username').value = 'root';
+        document.getElementById('password').value = 'crimson';
+        var p = document.querySelectorAll('#border p');
+        for (var i = 0; i < p.length; i++) {
+            p[i].style.display = 'none';
+        }
+    }
+
+</script>
+EOF
 
 #DEBIAN_FRONTEND=noninteractive apt-get install -y libgstreamer1.0-0 libjpeg62 libxslt-dev r-base
 #curl -L -o /tmp/rstudio-xenial-1.1.447-amd64.deb -s https://download1.rstudio.org/rstudio-xenial-1.1.447-amd64.deb && \
@@ -349,7 +364,8 @@ EOF
 chmod a+rx /opt/bin/*
 
 # Ubuntu-specific
-useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
+echo "root:crimson" | chpasswd
+useradd --home-dir /root/sandbox --shell /bin/bash ubuntu && \
     umask 0077 && \
-    mkdir -p /home/ubuntu && \
-    chown -R ubuntu:ubuntu /home/ubuntu
+    mkdir -p /root/sandbox && \
+    chown -R ubuntu:ubuntu /root/sandbox
