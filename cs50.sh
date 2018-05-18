@@ -26,7 +26,6 @@ apt-get update && \
         mysql-client \
         nano \
         nodejs \
-        npm \
         ocaml \
         openjdk-9-jre \
         perl \
