@@ -90,13 +90,15 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
     wget -P /tmp https://github.com/yyuu/pyenv/archive/master.zip && \
     unzip -d /tmp /tmp/master.zip && \
     rm -f /tmp/master.zip && \
-    mv /tmp/pyenv-master /opt/pyenv && \
-    chmod a+x /opt/pyenv/bin/pyenv && \
-    /opt/pyenv/bin/pyenv install 3.6.0 && \
-    /opt/pyenv/bin/pyenv rehash && \
-    /opt/pyenv/bin/pyenv global 3.6.0
-PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip install --upgrade pip
-PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip install --upgrade pip install \
+    mv /tmp/pyenv-master "$PYENV_ROOT" && \
+    chmod a+x "$PYENV_ROOT"/bin/pyenv && \
+    "$PYENV_ROOT"/bin/pyenv install 2.7.15 && \
+    "$PYENV_ROOT"/bin/pyenv install 3.6.5 && \
+    "$PYENV_ROOT"/bin/pyenv rehash && \
+    "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.6.5
+"$PYENV_ROOT"/shims/pip2 install --upgrade pip && \
+"$PYENV_ROOT"/shims/pip3 install --upgrade pip && \
+    "$PYENV_ROOT"/shims/pip3 install --upgrade pip install \
         awscli \
         Flask \
         Flask-Session
@@ -109,16 +111,16 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y libreadline-dev zlib1g-dev && 
     wget -P /tmp https://github.com/rbenv/rbenv/archive/master.zip && \
     unzip -d /tmp /tmp/master.zip && \
     rm -f /tmp/master.zip && \
-    mv /tmp/rbenv-master /opt/rbenv && \
-    chmod a+x /opt/rbenv/bin/rbenv && \
+    mv /tmp/rbenv-master "$RBENV_ROOT" && \
+    chmod a+x "$RBENV_ROOT"/bin/rbenv && \
     wget -P /tmp https://github.com/rbenv/ruby-build/archive/master.zip && \
     unzip -d /tmp /tmp/master.zip && \
     rm -f /tmp/master.zip && \
-    mkdir /opt/rbenv/plugins && \
-    mv /tmp/ruby-build-master /opt/rbenv/plugins/ruby-build && \
-    /opt/rbenv/bin/rbenv install 2.4.0 && \
-    /opt/rbenv/bin/rbenv rehash && \
-    /opt/rbenv/bin/rbenv global 2.4.0
+    mkdir "$RBENV_ROOT"/plugins && \
+    mv /tmp/ruby-build-master "$RBENV_ROOT"/plugins/ruby-build && \
+    "$RBENV_ROOT"/bin/rbenv install 2.4.0 && \
+    "$RBENV_ROOT"/bin/rbenv rehash && \
+    "$RBENV_ROOT"/bin/rbenv global 2.4.0
 PATH="$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PATH" gem install \
         asciidoctor \
         bundler \
@@ -128,11 +130,20 @@ PATH="$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PATH" gem install \
 
 # R-specific
 # https://www.rstudio.com/products/rstudio/download/#download
-DEBIAN_FRONTEND=noninteractive apt-get install -y libgstreamer1.0-0 libjpeg62 libxslt-dev r-base
-curl -L -o /tmp/rstudio-xenial-1.1.447-amd64.deb -s https://download1.rstudio.org/rstudio-xenial-1.1.447-amd64.deb && \
-    (dpkg -i /tmp/rstudio-xenial-1.1.447-amd64.deb || true) && \
-    rm -f /tmp/rstudio-xenial-1.1.447-amd64.deb && \
-    DEBIAN_FRONTEND=noninteractive apt-get --fix-broken install -y
+echo "deb https://cran.cnr.berkeley.edu/bin/linux/ubuntu xenial/" > /etc/apt/sources.list.d/cran.list && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y gdebi-core r-base && \
+    wget -P /tmp https://download2.rstudio.org/rstudio-server-1.1.453-amd64.deb && \
+    DEBIAN_FRONTEND=noninteractive echo "y" | gdebi /tmp/rstudio-server-1.1.453-amd64.deb && \
+    rm -f /tmp/rstudio-server-1.1.453-amd64.deb && \
+    echo "server-app-armor-enabled=0" >> /etc/rstudio/rserver.conf
+
+#DEBIAN_FRONTEND=noninteractive apt-get install -y libgstreamer1.0-0 libjpeg62 libxslt-dev r-base
+#curl -L -o /tmp/rstudio-xenial-1.1.447-amd64.deb -s https://download1.rstudio.org/rstudio-xenial-1.1.447-amd64.deb && \
+#    (dpkg -i /tmp/rstudio-xenial-1.1.447-amd64.deb || true) && \
+#    rm -f /tmp/rstudio-xenial-1.1.447-amd64.deb && \
+#    DEBIAN_FRONTEND=noninteractive apt-get --fix-broken install -y
 
 # CS50-specific
 add-apt-repository -y ppa:cs50/ppa && \
