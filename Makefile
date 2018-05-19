@@ -1,5 +1,5 @@
 run: build
-	docker run -it -P cs50/sandbox bash -l || true
+	docker run -it -P --rm cs50/sandbox bash -l || true
 
 build:
 	docker build -t cs50/sandbox .
