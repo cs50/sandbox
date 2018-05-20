@@ -139,6 +139,7 @@ echo "deb https://cran.cnr.berkeley.edu/bin/linux/ubuntu xenial/" > /etc/apt/sou
     DEBIAN_FRONTEND=noninteractive gdebi --non-interactive /tmp/rstudio-server-1.1.453-amd64.deb && \
     rm -f /tmp/rstudio-server-1.1.453-amd64.deb && \
     echo "server-app-armor-enabled=0" >> /etc/rstudio/rserver.conf && \
+    echo "www-frame-origin=any" >> /etc/rstudio/rserver.conf && \
     echo "session-timeout-minutes=0" >> /etc/rstudio/rsession.conf
 cat <<'EOF' > /etc/rstudio/login.html
 <script>
