@@ -1,4 +1,4 @@
-run: build
+run:
 	docker run -it -P --rm cs50/sandbox bash -l || true
 
 build:
