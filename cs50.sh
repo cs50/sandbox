@@ -35,7 +35,6 @@ apt-get update && \
         php-intl \
         php-mcrypt \
         rpm \
-        ruby `# 2.3 for now, hopefully 2.5 with Ubuntu 18.04` \
         s3cmd \
         software-properties-common \
         sqlite3 \
