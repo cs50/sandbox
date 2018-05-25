@@ -53,7 +53,7 @@ apt-get update && \
 # https://packagecloud.io/github/git-lfs/install#manual-deb
 # https://github.com/github/hub/releases
 DEBIAN_FRONTEND=noninteractive apt-get install -y curl gnupg && \
-    curl -L https://packagecloud.io/github/git-lfs/gpgkey | apt-key add -y - && \
+    curl -L https://packagecloud.io/github/git-lfs/gpgkey | apt-key add - && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y debian-archive-keyring && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https && \
@@ -118,9 +118,9 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y libreadline-dev zlib1g-dev && 
     rm -f /tmp/master.zip && \
     mkdir "$RBENV_ROOT"/plugins && \
     mv /tmp/ruby-build-master "$RBENV_ROOT"/plugins/ruby-build && \
-    "$RBENV_ROOT"/bin/rbenv install 2.4.0 && \
+    "$RBENV_ROOT"/bin/rbenv install 2.5.0 && \
     "$RBENV_ROOT"/bin/rbenv rehash && \
-    "$RBENV_ROOT"/bin/rbenv global 2.4.0
+    "$RBENV_ROOT"/bin/rbenv global 2.5.0
 PATH="$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PATH" gem install \
         asciidoctor \
         bundler \
