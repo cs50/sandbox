@@ -156,6 +156,30 @@ cat <<'EOF' > /etc/rstudio/login.html
 </script>
 EOF
 
+# LÖVE-specific
+# https://love2d.org/wiki/Building_L%C3%96VE
+apt-get install \
+        build-essential \
+        autotools-dev \
+        automake \
+        libtool \
+        pkg-config \
+        libdevil-dev \
+        libfreetype6-dev \
+        libluajit-5.1-dev \
+        libphysfs-dev \
+        libsdl2-dev \
+        libopenal-dev \
+        libogg-dev \
+        libvorbis-dev \
+        libflac-dev \
+        libflac++-dev \
+        libmodplug-dev \
+        libmpg123-dev \
+        libmng-dev \
+        libturbojpeg \
+        libtheora-dev
+
 # CS50-specific
 add-apt-repository -y ppa:cs50/ppa && \
     apt-get update && \
