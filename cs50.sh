@@ -62,10 +62,10 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y curl gnupg && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs && \
     git lfs install
-curl -L -o /tmp/hub-linux-amd64-2.2.9.tgz -s https://github.com/github/hub/releases/download/v2.2.9/hub-linux-amd64-2.2.9.tgz && \
-    tar xzf /tmp/hub-linux-amd64-2.2.9.tgz -C /tmp && \
-    /tmp/hub-linux-amd64-2.2.9/install && \
-    rm -rf /tmp/hub-linux-amd64-2.2.9 /tmp/hub-linux-amd64-2.2.9.tgz
+curl -L -o /tmp/hub-linux-amd64-2.4.0.tgz -s https://github.com/github/hub/releases/download/v2.4.0/hub-linux-amd64-2.4.0.tgz && \
+    tar xzf /tmp/hub-linux-amd64-2.4.0.tgz -C /tmp && \
+    /tmp/hub-linux-amd64-2.4.0/install && \
+    rm -rf /tmp/hub-linux-amd64-2.4.0 /tmp/hub-linux-amd64-2.4.0.tgz
 
 # Node.js-specific
 npm install -g http-server n && n 10.0.0
