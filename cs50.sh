@@ -40,6 +40,7 @@ apt-get update && \
         software-properties-common \
         sqlite3 \
         telnet \
+        tk-dev \
         tree \
         unzip \
         valgrind \
