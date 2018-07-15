@@ -42,6 +42,7 @@ apt-get update && \
         s3cmd \
         sqlite3 \
         telnet \
+        tk-dev \
         tree \
         unzip \
         valgrind \
