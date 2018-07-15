@@ -55,7 +55,7 @@ apt-get update && \
 # https://packagecloud.io/github/git-lfs/install
 # https://github.com/github/hub/releases
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
-    apt-get install -y git-lfs
+    DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs
 wget -P /tmp https://github.com/github/hub/releases/download/v2.5.0/hub-linux-amd64-2.5.0.tgz && \
     tar xvf /tmp/hub-linux-amd64-2.5.0.tgz -C /tmp && \
     /tmp/hub-linux-amd64-2.5.0/install && \
@@ -90,20 +90,19 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
         build-essential \
         curl \
         libbz2-dev \
+        libffi-dev \
         libncurses5-dev \
         libncursesw5-dev \
         libreadline-dev \
         libsqlite3-dev \
         libssl-dev \
         llvm \
+        make \
+        tk-dev \
         wget \
         xz-utils \
         zlib1g-dev && \
-    wget -P /tmp https://github.com/yyuu/pyenv/archive/master.zip && \
-    unzip -d /tmp /tmp/master.zip && \
-    rm -f /tmp/master.zip && \
-    mv /tmp/pyenv-master "$PYENV_ROOT" && \
-    chmod a+x "$PYENV_ROOT"/bin/pyenv && \
+    curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
     "$PYENV_ROOT"/bin/pyenv install 2.7.15 && \
     "$PYENV_ROOT"/bin/pyenv install 3.7.0 && \
     "$PYENV_ROOT"/bin/pyenv rehash && \
