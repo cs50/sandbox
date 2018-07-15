@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Ubuntu-specific
 apt-get update && \
