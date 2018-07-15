@@ -50,18 +50,10 @@ apt-get update && \
     apt-file update
 
 # Git-specific
-# https://packagecloud.io/github/git-lfs/install#manual-deb
+# https://packagecloud.io/github/git-lfs/install
 # https://github.com/github/hub/releases
-DEBIAN_FRONTEND=noninteractive apt-get install -y curl gnupg && \
-    curl -L https://packagecloud.io/github/git-lfs/gpgkey | apt-key add - && \
-    apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y debian-archive-keyring && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https && \
-    echo "deb https://packagecloud.io/github/git-lfs/ubuntu/ xenial main" > /etc/apt/sources.list.d/github_git-lfs.list && \
-    echo "deb-src https://packagecloud.io/github/git-lfs/ubuntu/ xenial main" >> /etc/apt/sources.list.d/github_git-lfs.list && \
-    apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs && \
-    git lfs install
+curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
+    apt-get install -y git-lfs
 wget -P /tmp https://github.com/github/hub/releases/download/v2.5.0/hub-linux-amd64-2.5.0.tgz && \
     tar xvf /tmp/hub-linux-amd64-2.5.0.tgz -C /tmp && \
     /tmp/hub-linux-amd64-2.5.0/install && \
