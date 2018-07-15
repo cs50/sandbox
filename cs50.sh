@@ -2,6 +2,9 @@
 
 # Ubuntu-specific
 apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common && \
+    add-apt-repository -y ppa:ondrej/php && \
+    apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         apt-file \
         apt-transport-https \
@@ -29,11 +32,11 @@ apt-get update && \
         npm \
         ocaml \
         perl \
-        php-cli \
-        php-curl \
-        php-gmp \
-        php-intl \
-        php-mcrypt \
+        php7.2-cli \
+        php7.2-curl \
+        php7.2-gmp \
+        php7.2-intl \
+        php7.2-mcrypt \
         rpm \
         s3cmd \
         software-properties-common \
