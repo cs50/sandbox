@@ -28,7 +28,6 @@ apt-get update && \
         nodejs \
         npm \
         ocaml \
-        openjdk-9-jre \
         perl \
         php-cli \
         php-curl \
@@ -46,7 +45,6 @@ apt-get update && \
         vim \
         wget \
         zip && \
-        DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-overwrite" install openjdk-9-jdk `# https://askubuntu.com/a/772485` && \
     apt-file update
 
 # Git-specific
@@ -67,8 +65,26 @@ curl -L -o /tmp/hub-linux-amd64-2.2.9.tgz -s https://github.com/github/hub/relea
     /tmp/hub-linux-amd64-2.2.9/install && \
     rm -rf /tmp/hub-linux-amd64-2.2.9 /tmp/hub-linux-amd64-2.2.9.tgz
 
+# Java-specific
+# http://jdk.java.net/10/
+wget -P /tmp https://download.java.net/java/GA/jdk10/10.0.1/fb4372174a714e6b8c52526dc134031e/10//openjdk-10.0.1_linux-x64_bin.tar.gz && \
+    tar xzf /tmp/openjdk-10.0.1_linux-x64_bin.tar.gz -C /tmp && \
+    rm -f /tmp/openjdk-10.0.1_linux-x64_bin.tar.gz && \
+    mv /tmp/jdk-10.0.1 /opt/ && \
+    mkdir -p /opt/bin && \
+    ln -s /opt/jdk-10.0.1/bin/* /opt/bin/ && \
+    chmod a+rx /opt/bin/*
+
+# LÖVE-specific
+# https://bitbucket.org/rude/love/downloads/
+wget -P /tmp https://bitbucket.org/rude/love/downloads/love_0.10.2ppa1_amd64.deb && \
+    wget -P /tmp https://bitbucket.org/rude/love/downloads/liblove0_0.10.2ppa1_amd64.deb && \
+    (dpkg -i /tmp/love_0.10.2ppa1_amd64.deb /tmp/liblove0_0.10.2ppa1_amd64.deb || true) && \
+    DEBIAN_FRONTEND=noninteractive apt-get -f install -y && \
+    rm -f /tmp/love_0.10.2ppa1_amd64.deb /tmp/liblove0_0.10.2ppa1_amd64.deb
+
 # Node.js-specific
-npm install -g http-server n && n 10.0.0
+npm install -g http-server n && n 10.6.0
 
 # Python-specific
 # https://github.com/yyuu/pyenv/blob/master/README.md#installation
@@ -93,9 +109,9 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
     mv /tmp/pyenv-master "$PYENV_ROOT" && \
     chmod a+x "$PYENV_ROOT"/bin/pyenv && \
     "$PYENV_ROOT"/bin/pyenv install 2.7.15 && \
-    "$PYENV_ROOT"/bin/pyenv install 3.6.5 && \
+    "$PYENV_ROOT"/bin/pyenv install 3.7.0 && \
     "$PYENV_ROOT"/bin/pyenv rehash && \
-    "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.6.5 &&
+    "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.7.0 &&
     "$PYENV_ROOT"/shims/pip2 install --upgrade pip==9.0.3 && \
     "$PYENV_ROOT"/shims/pip3 install --upgrade pip==9.0.3 && \
     "$PYENV_ROOT"/shims/pip3 install \
@@ -118,9 +134,9 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y libreadline-dev zlib1g-dev && 
     rm -f /tmp/master.zip && \
     mkdir "$RBENV_ROOT"/plugins && \
     mv /tmp/ruby-build-master "$RBENV_ROOT"/plugins/ruby-build && \
-    "$RBENV_ROOT"/bin/rbenv install 2.5.0 && \
+    "$RBENV_ROOT"/bin/rbenv install 2.5.1 && \
     "$RBENV_ROOT"/bin/rbenv rehash && \
-    "$RBENV_ROOT"/bin/rbenv global 2.5.0
+    "$RBENV_ROOT"/bin/rbenv global 2.5.1
 PATH="$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PATH" gem install \
         asciidoctor \
         bundler \
@@ -156,30 +172,6 @@ cat <<'EOF' > /etc/rstudio/login.html
 </script>
 EOF
 
-# LÖVE-specific
-# https://love2d.org/wiki/Building_L%C3%96VE
-apt-get install \
-        build-essential \
-        autotools-dev \
-        automake \
-        libtool \
-        pkg-config \
-        libdevil-dev \
-        libfreetype6-dev \
-        libluajit-5.1-dev \
-        libphysfs-dev \
-        libsdl2-dev \
-        libopenal-dev \
-        libogg-dev \
-        libvorbis-dev \
-        libflac-dev \
-        libflac++-dev \
-        libmodplug-dev \
-        libmpg123-dev \
-        libmng-dev \
-        libturbojpeg \
-        libtheora-dev
-
 # CS50-specific
 add-apt-repository -y ppa:cs50/ppa && \
     apt-get update && \
@@ -203,7 +195,7 @@ fi
 # PATH
 export RBENV_ROOT=/opt/rbenv
 export PYENV_ROOT=/opt/pyenv
-export PATH=/opt/cs50/bin:/usr/local/sbin:/usr/local/bin:"$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export PATH=/opt/cs50/bin:/opt/bin:/usr/local/sbin:/usr/local/bin:"$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Interactive shells
 if [ "$PS1" ]; then
@@ -245,9 +237,9 @@ if [ "$PS1" ]; then
 fi
 EOF
 
-# /opt/bin
-mkdir -p /opt/bin
-cat <<'EOF' > /opt/bin/flask
+# /opt/cs50/bin
+mkdir -p /opt/cs50/bin
+cat <<'EOF' > /opt/cs50/bin/flask
 #!/bin/bash
 
 # flask run
@@ -315,7 +307,7 @@ else
     /usr/local/bin/flask "$@"
 fi
 EOF
-cat <<'EOF' > /opt/bin/http-server
+cat <<'EOF' > /opt/cs50/bin/http-server
 #!/bin/bash
 
 # default options
@@ -381,7 +373,7 @@ script --flush --quiet --return /dev/null --command "/usr/local/bin/http-server 
         fi
     done
 EOF
-chmod a+rx /opt/bin/*
+chmod a+rx /opt/cs50/bin/*
 
 # Ubuntu-specific
 useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
