@@ -3,7 +3,8 @@
 # Ubuntu-specific
 apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common && \
-    add-apt-repository -y ppa:ondrej/php && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C && \
+    LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php `# https://askubuntu.com/a/490910` && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         apt-file \
@@ -36,10 +37,8 @@ apt-get update && \
         php7.2-curl \
         php7.2-gmp \
         php7.2-intl \
-        php7.2-mcrypt \
         rpm \
         s3cmd \
-        software-properties-common \
         sqlite3 \
         telnet \
         tree \
@@ -63,10 +62,10 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y curl gnupg && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs && \
     git lfs install
-curl -L -o /tmp/hub-linux-amd64-2.2.9.tgz -s https://github.com/github/hub/releases/download/v2.2.9/hub-linux-amd64-2.2.9.tgz && \
-    tar xzf /tmp/hub-linux-amd64-2.2.9.tgz -C /tmp && \
-    /tmp/hub-linux-amd64-2.2.9/install && \
-    rm -rf /tmp/hub-linux-amd64-2.2.9 /tmp/hub-linux-amd64-2.2.9.tgz
+wget -P /tmp https://github.com/github/hub/releases/download/v2.5.0/hub-linux-amd64-2.5.0.tgz && \
+    tar xvf /tmp/hub-linux-amd64-2.5.0.tgz -C /tmp && \
+    /tmp/hub-linux-amd64-2.5.0/install && \
+    rm -rf /tmp/hub-linux-amd64-2.5.0*
 
 # Java-specific
 # http://jdk.java.net/10/
@@ -176,9 +175,8 @@ cat <<'EOF' > /etc/rstudio/login.html
 EOF
 
 # CS50-specific
-add-apt-repository -y ppa:cs50/ppa && \
-    apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y astyle libcs50
+curl -s https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | bash && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y astyle libcs50 libcs50-java php-cs50
 "$PYENV_ROOT"/shims/pip3 install \
         cs50 \
         check50 \
