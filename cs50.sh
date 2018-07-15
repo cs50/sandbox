@@ -30,8 +30,6 @@ apt-get update && \
         man \
         mysql-client \
         nano \
-        nodejs \
-        npm \
         ocaml \
         perl \
         php7.2-cli \
@@ -80,7 +78,8 @@ wget -P /tmp https://bitbucket.org/rude/love/downloads/love_0.10.2ppa1_amd64.deb
     rm -f /tmp/love_0.10.2ppa1_amd64.deb /tmp/liblove0_0.10.2ppa1_amd64.deb
 
 # Node.js-specific
-npm install -g http-server n && n 10.6.0
+curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
 
 # Python-specific
 # https://github.com/yyuu/pyenv/blob/master/README.md#installation
@@ -102,7 +101,11 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
         wget \
         xz-utils \
         zlib1g-dev && \
-    curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
+    wget -P /tmp https://github.com/pyenv/pyenv/archive/master.zip && \
+    unzip -d /tmp /tmp/master.zip && \
+    rm -f /tmp/master.zip && \
+    mv /tmp/pyenv-master "$PYENV_ROOT" && \
+    chmod a+x "$PYENV_ROOT"/bin/* && \
     "$PYENV_ROOT"/bin/pyenv install 2.7.15 && \
     "$PYENV_ROOT"/bin/pyenv install 3.7.0 && \
     "$PYENV_ROOT"/bin/pyenv rehash && \
@@ -123,7 +126,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y libreadline-dev zlib1g-dev && 
     unzip -d /tmp /tmp/master.zip && \
     rm -f /tmp/master.zip && \
     mv /tmp/rbenv-master "$RBENV_ROOT" && \
-    chmod a+x "$RBENV_ROOT"/bin/rbenv && \
+    chmod a+x "$RBENV_ROOT"/bin/* && \
     wget -P /tmp https://github.com/rbenv/ruby-build/archive/master.zip && \
     unzip -d /tmp /tmp/master.zip && \
     rm -f /tmp/master.zip && \
