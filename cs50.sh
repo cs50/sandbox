@@ -52,7 +52,7 @@ apt-get update && \
 # Git-specific
 # https://packagecloud.io/github/git-lfs/install
 # https://github.com/github/hub/releases
-curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
+curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash -e && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs
 wget -P /tmp https://github.com/github/hub/releases/download/v2.5.0/hub-linux-amd64-2.5.0.tgz && \
     tar xvf /tmp/hub-linux-amd64-2.5.0.tgz -C /tmp && \
@@ -171,7 +171,7 @@ cat <<'EOF' > /etc/rstudio/login.html
 EOF
 
 # CS50-specific
-curl -s https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | bash && \
+curl -s https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | bash -e && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y astyle libcs50 libcs50-java php-cs50
 "$PYENV_ROOT"/shims/pip3 install \
         cs50 \
