@@ -260,7 +260,7 @@ if [[ "$1" == "run" ]]; then
     reload="--reload"
 
     # remove when https://github.com/miguelgrinberg/Flask-SocketIO/pull/659 is merged
-    if $(npm prefix -g)/bin/flask run --help | grep --quiet -- "--with-threads"; then
+    if /opt/pyenv/shims/flask run --help | grep --quiet -- "--with-threads"; then
         threads="--with-threads";
     fi
 
@@ -297,14 +297,14 @@ if [[ "$1" == "run" ]]; then
     fuser --kill "${port//[^0-9]}/tcp" &> /dev/null
 
     # spawn flask
-    script --flush --quiet --return /dev/null --command "FLASK_APP=\"$FLASK_APP\" FLASK_DEBUG=\"$FLASK_DEBUG\" $(npm prefix -g)/bin/flask run $debugger $host $port $reload $threads $options" |
+    script --flush --quiet --return /dev/null --command "FLASK_APP=\"$FLASK_APP\" FLASK_DEBUG=\"$FLASK_DEBUG\" /opt/pyenv/shims/flask run $debugger $host $port $reload $threads $options" |
         while IFS= read -r line
         do
             # rewrite address as localhost
             echo "$line" | sed "s#\( *Running on http://\)[^:]\+\(:.\+\)#\1localhost\2#"
         done
 else
-    $(npm prefix -g)/bin/flask "$@"
+    /opt/pyenv/shims/flask "$@"
 fi
 EOF
 cat <<'EOF' > /opt/cs50/bin/http-server
