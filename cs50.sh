@@ -297,7 +297,7 @@ if [[ "$1" == "run" ]]; then
     fuser --kill "${port//[^0-9]}/tcp" &> /dev/null
 
     # spawn flask
-    script --flush --quiet --return /dev/null --command "FLASK_APP=\"$FLASK_APP\" FLASK_DEBUG=\"$FLASK_DEBUG\" /usr/local/bin/flask run $debugger $host $port $reload $threads $options" |
+    script --flush --quiet --return /dev/null --command "FLASK_APP=\"$FLASK_APP\" FLASK_DEBUG=\"$FLASK_DEBUG\" $(npm -g prefix)/bin/flask run $debugger $host $port $reload $threads $options" |
         while IFS= read -r line
         do
             # rewrite address as localhost
@@ -353,7 +353,7 @@ done
 fuser --kill "${port//[^0-9]}/tcp" &> /dev/null
 
 # spawn http-server, retaining colorized output
-script --flush --quiet --return /dev/null --command "/usr/bin/http-server $a $c $cors $i $port $options" |
+script --flush --quiet --return /dev/null --command "$(npm -g prefix)/bin/http-server $a $c $cors $i $port $options" |
     while IFS= read -r line
     do
         # rewrite address(es) as localhost
