@@ -352,7 +352,7 @@ done
 fuser --kill "${port//[^0-9]}/tcp" &> /dev/null
 
 # spawn http-server, retaining colorized output
-script --flush --quiet --return /dev/null --command "/usr/local/bin/http-server $a $c $cors $i $port $options" |
+script --flush --quiet --return /dev/null --command "/usr/bin/http-server $a $c $cors $i $port $options" |
     while IFS= read -r line
     do
         # rewrite address(es) as localhost
