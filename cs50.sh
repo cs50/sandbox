@@ -80,6 +80,7 @@ wget -P /tmp https://bitbucket.org/rude/love/downloads/love_0.10.2ppa1_amd64.deb
 # Node.js-specific
 curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs && \
+    npm install -g npm && \
     npm install -g http-server
 
 # Python-specific
