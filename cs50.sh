@@ -260,7 +260,7 @@ if [[ "$1" == "run" ]]; then
     reload="--reload"
 
     # remove when https://github.com/miguelgrinberg/Flask-SocketIO/pull/659 is merged
-    if /opt/pyenv/shims/flask run --help | grep --quiet -- "--with-threads"; then
+    if $(npm prefix -g)/bin/flask run --help | grep --quiet -- "--with-threads"; then
         threads="--with-threads";
     fi
 
@@ -297,14 +297,14 @@ if [[ "$1" == "run" ]]; then
     fuser --kill "${port//[^0-9]}/tcp" &> /dev/null
 
     # spawn flask
-    script --flush --quiet --return /dev/null --command "FLASK_APP=\"$FLASK_APP\" FLASK_DEBUG=\"$FLASK_DEBUG\" $(npm -g prefix)/bin/flask run $debugger $host $port $reload $threads $options" |
+    script --flush --quiet --return /dev/null --command "FLASK_APP=\"$FLASK_APP\" FLASK_DEBUG=\"$FLASK_DEBUG\" $(npm prefix -g)/bin/flask run $debugger $host $port $reload $threads $options" |
         while IFS= read -r line
         do
             # rewrite address as localhost
             echo "$line" | sed "s#\( *Running on http://\)[^:]\+\(:.\+\)#\1localhost\2#"
         done
 else
-    /usr/local/bin/flask "$@"
+    $(npm prefix -g)/bin/flask "$@"
 fi
 EOF
 cat <<'EOF' > /opt/cs50/bin/http-server
@@ -353,7 +353,7 @@ done
 fuser --kill "${port//[^0-9]}/tcp" &> /dev/null
 
 # spawn http-server, retaining colorized output
-script --flush --quiet --return /dev/null --command "$(npm -g prefix)/bin/http-server $a $c $cors $i $port $options" |
+script --flush --quiet --return /dev/null --command "$(npm prefix -g)/bin/http-server $a $c $cors $i $port $options" |
     while IFS= read -r line
     do
         # rewrite address(es) as localhost
