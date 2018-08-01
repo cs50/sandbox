@@ -111,8 +111,8 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
     "$PYENV_ROOT"/bin/pyenv install 3.7.0 && \
     "$PYENV_ROOT"/bin/pyenv rehash && \
     "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.7.0 &&
-    "$PYENV_ROOT"/shims/pip2 install --upgrade pip==9.0.3 && \
-    "$PYENV_ROOT"/shims/pip3 install --upgrade pip==9.0.3 && \
+    "$PYENV_ROOT"/shims/pip2 install --upgrade pip && \
+    "$PYENV_ROOT"/shims/pip3 install --upgrade pip && \
     "$PYENV_ROOT"/shims/pip3 install \
         awscli \
         Flask \
