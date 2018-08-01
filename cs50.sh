@@ -226,6 +226,7 @@ if [ "$PS1" ]; then
     export CC="clang"
     export CFLAGS="-fsanitize=signed-integer-overflow -fsanitize=undefined -ggdb3 -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wshadow"
     export EDITOR=nano
+    export FLASK_APP=application.py
     export FLASK_ENV=development
     export LANG=C
     export LANGUAGE=C.UTF-8
@@ -254,7 +255,7 @@ if [[ "$1" == "run" ]]; then
     # default options
     debugger="--no-debugger"
     host="--host=0.0.0.0"
-    port="--port=5000"
+    port="--port=8080"
     reload="--reload"
 
     # remove when https://github.com/miguelgrinberg/Flask-SocketIO/pull/659 is merged
