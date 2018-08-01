@@ -259,7 +259,7 @@ if [[ "$1" == "run" ]]; then
     reload="--reload"
 
     # remove when https://github.com/miguelgrinberg/Flask-SocketIO/pull/659 is merged
-    if /usr/local/bin/flask run --help | grep --quiet -- "--with-threads"; then
+    if /opt/pyenv/shims/flask run --help | grep --quiet -- "--with-threads"; then
         threads="--with-threads";
     fi
 
