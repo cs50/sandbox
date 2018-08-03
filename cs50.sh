@@ -185,7 +185,7 @@ curl -s https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | b
 
 # Bash-specific
 mkdir -p /root/.bashrcs
-cat <<'EOF' > /root/.bashrcs/cs50.sh
+cat <<'EOF' > /root/.bashrcs/~cs50.sh
 # File mode creation mask
 if [ "$(id -u)" != "0" ]; then
     umask 0077
@@ -194,7 +194,7 @@ fi
 # PATH
 export RBENV_ROOT=/opt/rbenv
 export PYENV_ROOT=/opt/pyenv
-export PATH=/opt/cs50/bin:/opt/bin:/usr/local/sbin:/usr/local/bin:"$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export PATH=/opt/cs50/bin:"$HOME"/.local/bin:/opt/bin:/usr/local/sbin:/usr/local/bin:"$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Interactive shells
 if [ "$PS1" ]; then
@@ -235,6 +235,8 @@ if [ "$PS1" ]; then
     export LDLIBS="-lcrypt -lcs50 -lm"
 
 fi
+
+# cmd
 EOF
 
 # /opt/cs50/bin
