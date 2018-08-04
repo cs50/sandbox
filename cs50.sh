@@ -194,7 +194,7 @@ fi
 # PATH
 export RBENV_ROOT=/opt/rbenv
 export PYENV_ROOT=/opt/pyenv
-export PATH=/opt/cs50/bin:"$HOME"/.local/bin:/opt/bin:/usr/local/sbin:/usr/local/bin:"$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/opt/cs50/bin:"$HOME"/.local/bin:/opt/bin:/usr/local/sbin:/usr/local/bin:"$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Interactive shells
 if [ "$PS1" ]; then
