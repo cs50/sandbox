@@ -200,8 +200,8 @@ export PATH=/opt/cs50/bin:"$HOME"/.local/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/b
 if [ "$PS1" ]; then
 
     # Simplify prompt
-
     export PS1='$ '
+
     # Override HOME for cd if ~/workspace exists
     cd()
     {
@@ -233,6 +233,15 @@ if [ "$PS1" ]; then
     export LANGUAGE=C.UTF-8
     export LC_ALL=C.UTF-8
     export LDLIBS="-lcrypt -lcs50 -lm"
+
+    # History
+    # https://www.shellhacks.com/tune-command-line-history-bash/
+    shopt -s histappend  # Append Bash Commands to History File
+    export PROMPT_COMMAND='history -a'  # Store Bash History Immediately
+    shopt -s cmdhist  # Use one command per line
+    if [ "$(id -u)" == "0" ]; then
+        export HISTFILE=~/sandbox/.bash_history  # Change the History File Name
+    fi
 
 fi
 
