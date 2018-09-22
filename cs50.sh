@@ -4,8 +4,6 @@ set -e
 # Ubuntu-specific
 apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C && \
-    LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php `# https://askubuntu.com/a/490910` && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         apt-file \
