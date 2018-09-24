@@ -120,7 +120,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
         Flask-Session
 
 # Ruby-specific
-RUN gem install \
+gem install \
     asciidoctor \
     bundler \
     fpm \
