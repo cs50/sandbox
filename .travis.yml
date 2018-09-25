@@ -1,0 +1,8 @@
+install: true
+script: true
+before_deploy: rm -rf gh-pages && mkdir gh-pages && cp script.js style.scss gh-pages
+deploy:
+  provider: pages
+  github-token: $GH_TOKEN
+  local-dir: gh-pages
+  skip_cleanup: true
