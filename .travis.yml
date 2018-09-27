@@ -1,6 +1,6 @@
 install: true
 script: true
-before_deploy: rm -rf gh-pages && mkdir gh-pages && cp scripts.js styles.css gh-pages
+before_deploy: rm -rf gh-pages && mkdir gh-pages && cp styles.css gh-pages
 deploy:
   provider: pages
   github-token: $GH_TOKEN
