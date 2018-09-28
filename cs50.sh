@@ -219,6 +219,7 @@ if [ "$PS1" ]; then
     export LC_ALL="C.UTF-8"
     export LDLIBS="-lcrypt -lcs50 -lm"
     export PYTHONDONTWRITEBYTECODE="1"
+    export VALGRIND_OPTS="--memcheck:leak-check=full --memcheck:track-origins=yes"
 
     # History
     # https://www.shellhacks.com/tune-command-line-history-bash/
