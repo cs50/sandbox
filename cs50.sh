@@ -4,8 +4,6 @@ set -e
 # Ubuntu-specific
 apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C && \
-    LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php `# https://askubuntu.com/a/490910` && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         apt-file \
@@ -37,6 +35,8 @@ apt-get update && \
         php7.2-gmp \
         php7.2-intl \
         rpm \
+        ruby \
+        ruby-dev `# Avoid "can't find header files for ruby" for gem` \
         s3cmd \
         sqlite3 \
         telnet \
@@ -120,43 +120,28 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
         Flask-Session
 
 # Ruby-specific
-# https://github.com/rbenv/rbenv/blob/master/README.md#installation
-# https://github.com/rbenv/ruby-build/blob/master/README.md
-export RBENV_ROOT=/opt/rbenv
-DEBIAN_FRONTEND=noninteractive apt-get install -y libreadline-dev zlib1g-dev && \
-    wget -P /tmp https://github.com/rbenv/rbenv/archive/master.zip && \
-    unzip -d /tmp /tmp/master.zip && \
-    rm -f /tmp/master.zip && \
-    mv /tmp/rbenv-master "$RBENV_ROOT" && \
-    chmod a+x "$RBENV_ROOT"/bin/* && \
-    wget -P /tmp https://github.com/rbenv/ruby-build/archive/master.zip && \
-    unzip -d /tmp /tmp/master.zip && \
-    rm -f /tmp/master.zip && \
-    mkdir "$RBENV_ROOT"/plugins && \
-    mv /tmp/ruby-build-master "$RBENV_ROOT"/plugins/ruby-build && \
-    "$RBENV_ROOT"/bin/rbenv install 2.5.1 && \
-    "$RBENV_ROOT"/bin/rbenv rehash && \
-    "$RBENV_ROOT"/bin/rbenv global 2.5.1
-PATH="$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PATH" gem install \
-        asciidoctor \
-        bundler \
-        fpm \
-        jekyll-asciidoc \
-        pygments.rb
+gem install \
+    asciidoctor \
+    bundler \
+    fpm \
+    jekyll \
+    jekyll-asciidoc \
+    pygments.rb
 
 # R-specific
-# https://www.rstudio.com/products/rstudio/download/#download
-echo "deb https://cran.cnr.berkeley.edu/bin/linux/ubuntu xenial/" > /etc/apt/sources.list.d/cran.list && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+# https://www.rstudio.com/products/rstudio/download-server/
+mkdir -p /root/sandbox
+echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" > /etc/apt/sources.list.d/cran.list && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y r-base && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y gdebi-core && \
-    wget -P /tmp https://download2.rstudio.org/rstudio-server-1.1.453-amd64.deb && \
-    DEBIAN_FRONTEND=noninteractive gdebi --non-interactive /tmp/rstudio-server-1.1.453-amd64.deb && \
-    rm -f /tmp/rstudio-server-1.1.453-amd64.deb && \
+    wget -P /tmp https://download2.rstudio.org/rstudio-server-1.1.456-amd64.deb && \
+    DEBIAN_FRONTEND=noninteractive gdebi --non-interactive /tmp/rstudio-server-1.1.456-amd64.deb && \
+    rm -f /tmp/rstudio-server-1.1.456-amd64.deb && \
     echo "server-app-armor-enabled=0" >> /etc/rstudio/rserver.conf && \
     echo "www-frame-origin=any" >> /etc/rstudio/rserver.conf && \
-    echo "session-timeout-minutes=0" >> /etc/rstudio/rsession.conf
+    echo "session-timeout-minutes=1" >> /etc/rstudio/rsession.conf
 cat <<'EOF' > /etc/rstudio/login.html
 <script>
 
@@ -233,6 +218,8 @@ if [ "$PS1" ]; then
     export LANGUAGE=C.UTF-8
     export LC_ALL=C.UTF-8
     export LDLIBS="-lcrypt -lcs50 -lm"
+    export PYTHONDONTWRITEBYTECODE="1"
+    export VALGRIND_OPTS="--memcheck:leak-check=full --memcheck:track-origins=yes"
 
     # History
     # https://www.shellhacks.com/tune-command-line-history-bash/
@@ -242,6 +229,18 @@ if [ "$PS1" ]; then
     if [ "$(id -u)" == "0" ]; then
         export HISTFILE=~/sandbox/.bash_history  # Change the History File Name
     fi
+
+    # make
+    function make
+    {
+        if [[ "$*" == *.c ]]
+        then
+            echo "Did you mean 'make ${*%.c}?'" >&2
+            return 1
+        else
+            command make $*
+        fi
+    }
 
 fi
 
