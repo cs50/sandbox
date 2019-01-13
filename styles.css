@@ -2,3 +2,12 @@
 #remote-img-inner {
     image-rendering: pixelated;
 }
+
+/* Hide lefthand sidebar */
+.reflex-layout.reflex-container.vertical > .reflex-element:nth-child(1) {
+    display: none;
+}
+.reflex-layout.reflex-container.vertical > .reflex-element:nth-child(2) {
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+}
