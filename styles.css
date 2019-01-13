@@ -7,7 +7,15 @@
 .reflex-layout.reflex-container.vertical > .reflex-element:nth-child(1) {
     display: none;
 }
-.reflex-layout.reflex-container.vertical > .reflex-element:nth-child(2) {
-    -webkit-box-flex: 1;
-    flex-grow: 1;
+.reflex-layout.reflex-container.vertical > .reflex-element:nth-child(3) {
+    -webkit-box-flex: 1 !important;
+    flex: 1 1 0% !important;
+}
+
+/* Hide icons */
+.pane-bottom-nav {
+    display: none;
+}
+#project .code-space .codemirror-ide-editor {
+    max-height: 100%;
 }
