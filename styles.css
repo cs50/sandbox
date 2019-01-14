@@ -4,7 +4,6 @@
 }
 
 /* Hide lefthand sidebar */
-/*
 .reflex-layout.reflex-container.vertical > .reflex-element:nth-child(1) {
     display: none;
 }
@@ -12,7 +11,6 @@
     -webkit-box-flex: 1 !important;
     flex: 1 1 0% !important;
 }
-*/
 
 /* Hide icons */
 .pane-bottom-nav {
