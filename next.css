@@ -1,0 +1,12 @@
+/* Pixelate images */
+#remote-img-inner {
+    image-rendering: pixelated;
+}
+
+/* Hide icons */
+.pane-bottom-nav {
+    display: none;
+}
+#project .code-space .codemirror-ide-editor {
+    max-height: 100%;
+}
