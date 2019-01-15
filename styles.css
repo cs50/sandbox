@@ -13,7 +13,7 @@
 }
 
 /* Hide icons */
-# project:not(.editable) .pane-bottom-nav {
+#project:not(.editable) .pane-bottom-nav {
     display: none;
 }
 #project:not(.editable) .code-space .codemirror-ide-editor {
