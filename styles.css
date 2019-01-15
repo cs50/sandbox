@@ -1,5 +1,5 @@
 /* Pixelate images */
-#remote-img-inner {
+.remote-img-inner {
     image-rendering: pixelated;
 }
 
