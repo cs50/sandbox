@@ -1,12 +1,12 @@
 /* Pixelate images */
-#remote-img-inner {
+#project:not(.editable) .remote-img-inner {
     image-rendering: pixelated;
 }
 
 /* Hide icons */
-.pane-bottom-nav {
+#project:not(.editable) .pane-bottom-nav {
     display: none;
 }
-#project .code-space .codemirror-ide-editor {
+#project:not(.editable) .code-space .codemirror-ide-editor {
     max-height: 100%;
 }
