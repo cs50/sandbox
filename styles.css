@@ -19,3 +19,11 @@
 #project:not(.editable) .code-space .codemirror-ide-editor {
     max-height: 100%;
 }
+
+/* Hide filetree's header */
+#project:not(.editable) .directory-sidebar > .directory-sidebar__header {
+    display: none;
+}
+#project:not(.editable) .directory-sidebar > .file-list {
+    padding-top: 4px;
+}
