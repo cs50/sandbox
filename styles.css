@@ -21,9 +21,9 @@
 }
 
 /* Hide filetree's header */
-#project:not(.editable) .directory-sidebar > .directory-sidebar__header {
+#project:not(.editable) #directory-sidebar > .directory-sidebar__header {
     display: none;
 }
-#project:not(.editable) .directory-sidebar > .file-list {
+#project:not(.editable) #directory-sidebar > .file-list {
     padding-top: 4px;
 }
