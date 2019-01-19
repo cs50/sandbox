@@ -320,7 +320,7 @@ EOF
 cat <<'EOF' > /opt/cs50/bin/http-server
 #!/bin/bash
 
-# default options
+# Default options
 a="-a 0.0.0.0"
 c="-c-1"
 cors="--cors"
@@ -328,7 +328,7 @@ i="-i false"
 port="-p 8080"
 options="--no-dotfiles"
 
-# override default options
+# Override default options
 while test ${#} -gt 0
 do
     if [[ "$1" =~ ^-a$ ]]; then
@@ -358,30 +358,12 @@ do
     fi
 done
 
-# kill any process listing on the specified port
-# regex to handle -pxxxx, -p xxxx
+# Kill any process listing on the specified port
+# using regex to handle -pxxxx, -p xxxx, --port xxxx, --port=xxxx
 fuser --kill "${port//[^0-9]}/tcp" &> /dev/null
 
-# spawn http-server, retaining colorized output
-script --flush --quiet --return /dev/null --command "$(npm prefix -g)/bin/http-server $a $c $cors $i $port $options" |
-    while IFS= read -r line
-    do
-        # rewrite address(es) as localhost
-        if [[ "$line" =~ "Available on:" ]]; then
-            echo "$line"
-            IFS= read -r line
-            echo "$line" | sed "s#\(.*http://\)[^:]\+\(:.\+\)#\1localhost\2#"
-            while IFS= read -r line
-            do
-                if [[ "$line" =~ "Hit CTRL-C to stop the server" ]]; then
-                    echo "$line"
-                    break
-                fi
-            done
-        else
-            echo "$line"
-        fi
-    done
+# Spawn http-server, retaining colorized output using expect's unbuffer
+unbuffer "$(npm prefix -g)/bin/http-server" $a $c $cors $i $port $options | sed "s#\(.*http://\)[^:]\+\(:.\+\)#\1localhost\2#"
 EOF
 chmod a+rx /opt/cs50/bin/*
 
