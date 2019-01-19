@@ -29,6 +29,6 @@
 }
 
 /* Hide text in empty panes */
-#project:not(.editable) empty-pane-inner {
+#project:not(.editable) .empty-pane-inner {
     display: none;
 }
