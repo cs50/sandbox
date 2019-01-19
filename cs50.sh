@@ -252,37 +252,19 @@ mkdir -p /opt/cs50/bin
 cat <<'EOF' > /opt/cs50/bin/flask
 #!/bin/bash
 
-# flask run
 if [[ "$1" == "run" ]]; then
 
-    # otherwise FLASK_DEBUG=1 suppresses this error in shell
-    if [[ ! -z "$FLASK_APP" && ! -f "$FLASK_APP" ]]; then
-        echo "Usage: flask run [OPTIONS]"
-        echo
-        echo "Error: The file/path provided ($FLASK_APP) does not appear to exist.  Please verify the path is correct.  If app is not on PYTHONPATH, ensure the extension is .py"
-        exit 1
-    fi
-
-    # default options
-    debugger="--no-debugger"
+    # Default options
     host="--host=0.0.0.0"
     port="--port=8080"
     reload="--reload"
 
-    # remove when https://github.com/miguelgrinberg/Flask-SocketIO/pull/659 is merged
-    if /opt/pyenv/shims/flask run --help | grep --quiet -- "--with-threads"; then
-        threads="--with-threads";
-    fi
-
+    # Override default options
     options=""
-
-    # override default options
     shift
     while test ${#} -gt 0
     do
-        if [[ "$1" =~ ^--(no-)?debugger$ ]]; then
-            debugger="$1"
-        elif [[ "$1" =~ ^--host= || "$1" =~ ^-h[^\s]+ ]]; then
+        if [[ "$1" =~ ^--host= || "$1" =~ ^-h[^\s]+ ]]; then
             host="$1"
         elif [[ "$1" == "-h" || "$1" == "--host" ]]; then
             host="$1 $2"
@@ -302,19 +284,14 @@ if [[ "$1" == "run" ]]; then
         shift
     done
 
-    # kill any process listing on the specified port
-    # regex to handle -pxxxx, -p xxxx, --port xxxx, --port=xxxx
-    fuser --kill "${port//[^0-9]}/tcp" &> /dev/null
+    # Kill any process listing on the specified port
+    # using regex to handle -pxxxx, -p xxxx, --port xxxx, --port=xxxx
+    fuser --kill -INT "${port//[^0-9]}/tcp" &> /dev/null
 
-    # spawn flask
-    script --flush --quiet --return /dev/null --command "FLASK_APP=\"$FLASK_APP\" FLASK_DEBUG=\"$FLASK_DEBUG\" /opt/pyenv/shims/flask run $debugger $host $port $reload $threads $options" |
-        while IFS= read -r line
-        do
-            # rewrite address as localhost
-            echo "$line" | sed "s#\( *Running on http://\)[^:]\+\(:.\+\)#\1localhost\2#"
-        done
+    # Spawn flask
+    FLASK_APP="$FLASK_APP" FLASK_DEBUG="${FLASK_DEBUG:-0}" unbuffer /opt/pyenv/shims/flask run $host $port $reload $threads $options | sed "s#\(.*http://\)[^:]\+\(:.\+\)#\1localhost\2#"
 else
-    /opt/pyenv/shims/flask "$@"
+    command flask "$@"
 fi
 EOF
 cat <<'EOF' > /opt/cs50/bin/http-server
