@@ -27,3 +27,8 @@
 #project:not(.editable) #directory-sidebar > .file-list {
     padding-top: 4px;
 }
+
+/* Hide text in empty panes */
+#project:not(.editable) empty-pane-inner {
+    display: none;
+}
