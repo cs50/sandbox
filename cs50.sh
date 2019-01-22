@@ -20,6 +20,7 @@ apt-get update && \
         dnsutils \
         dos2unix \
         exiftool \
+        expect `# For unbuffer` \
         gdb \
         gettext \
         git \
@@ -54,19 +55,15 @@ apt-get update && \
 # https://github.com/github/hub/releases
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash -e && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs
-wget -P /tmp https://github.com/github/hub/releases/download/v2.5.0/hub-linux-amd64-2.5.0.tgz && \
-    tar xvf /tmp/hub-linux-amd64-2.5.0.tgz -C /tmp && \
-    /tmp/hub-linux-amd64-2.5.0/install && \
-    rm -rf /tmp/hub-linux-amd64-2.5.0*
 
 # Java-specific
 # http://jdk.java.net/10/
-wget -P /tmp https://download.java.net/java/GA/jdk10/10.0.1/fb4372174a714e6b8c52526dc134031e/10//openjdk-10.0.1_linux-x64_bin.tar.gz && \
-    tar xzf /tmp/openjdk-10.0.1_linux-x64_bin.tar.gz -C /tmp && \
-    rm -f /tmp/openjdk-10.0.1_linux-x64_bin.tar.gz && \
-    mv /tmp/jdk-10.0.1 /opt/ && \
+wget -P /tmp https://download.java.net/java/GA/jdk10/10.0.2/19aef61b38124481863b1413dce1855f/13/openjdk-10.0.2_linux-x64_bin.tar.gz && \
+    tar xzf /tmp/openjdk-10.0.2_linux-x64_bin.tar.gz -C /tmp && \
+    rm -f /tmp/openjdk-10.0.2_linux-x64_bin.tar.gz && \
+    mv /tmp/jdk-10.0.2 /opt/ && \
     mkdir -p /opt/bin && \
-    ln -s /opt/jdk-10.0.1/bin/* /opt/bin/ && \
+    ln -s /opt/jdk-10.0.2/bin/* /opt/bin/ && \
     chmod a+rx /opt/bin/*
 
 # LÖVE-specific
@@ -78,7 +75,7 @@ wget -P /tmp https://bitbucket.org/rude/love/downloads/love_0.10.2ppa1_amd64.deb
     rm -f /tmp/love_0.10.2ppa1_amd64.deb /tmp/liblove0_0.10.2ppa1_amd64.deb
 
 # Node.js-specific
-curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs && \
     npm install -g npm && \
     npm install -g http-server
@@ -109,9 +106,9 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
     mv /tmp/pyenv-master "$PYENV_ROOT" && \
     chmod a+x "$PYENV_ROOT"/bin/* && \
     "$PYENV_ROOT"/bin/pyenv install 2.7.15 && \
-    "$PYENV_ROOT"/bin/pyenv install 3.7.0 && \
+    "$PYENV_ROOT"/bin/pyenv install 3.7.1 && \
     "$PYENV_ROOT"/bin/pyenv rehash && \
-    "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.7.0 &&
+    "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.7.1 &&
     "$PYENV_ROOT"/shims/pip2 install --upgrade pip && \
     "$PYENV_ROOT"/shims/pip3 install --upgrade pip && \
     "$PYENV_ROOT"/shims/pip3 install \
@@ -177,9 +174,8 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # PATH
-export RBENV_ROOT=/opt/rbenv
 export PYENV_ROOT=/opt/pyenv
-export PATH=/opt/cs50/bin:"$HOME"/.local/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/opt/bin:/usr/local/sbin:/usr/local/bin:"$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export PATH=/opt/cs50/bin:"$HOME"/.local/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Interactive shells
 if [ "$PS1" ]; then
