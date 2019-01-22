@@ -30,6 +30,7 @@ apt-get update && \
         mysql-client \
         nano \
         ocaml \
+        openjdk-11-jdk-headless `# Java 10` \
         perl \
         php7.2-cli \
         php7.2-curl \
@@ -55,16 +56,6 @@ apt-get update && \
 # https://github.com/github/hub/releases
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash -e && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs
-
-# Java-specific
-# http://jdk.java.net/10/
-wget -P /tmp https://download.java.net/java/GA/jdk10/10.0.2/19aef61b38124481863b1413dce1855f/13/openjdk-10.0.2_linux-x64_bin.tar.gz && \
-    tar xzf /tmp/openjdk-10.0.2_linux-x64_bin.tar.gz -C /tmp && \
-    rm -f /tmp/openjdk-10.0.2_linux-x64_bin.tar.gz && \
-    mv /tmp/jdk-10.0.2 /opt/ && \
-    mkdir -p /opt/bin && \
-    ln -s /opt/jdk-10.0.2/bin/* /opt/bin/ && \
-    chmod a+rx /opt/bin/*
 
 # LÖVE-specific
 # https://bitbucket.org/rude/love/downloads/
