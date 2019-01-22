@@ -278,7 +278,7 @@ if [[ "$1" == "run" ]]; then
     # Spawn flask
     FLASK_APP="$FLASK_APP" FLASK_DEBUG="${FLASK_DEBUG:-0}" unbuffer /opt/pyenv/shims/flask run $host $port $reload $threads $options | sed "s#\(.*http://\)[^:]\+\(:.\+\)#\1localhost\2#"
 else
-    command flask "$@"
+    /opt/pyenv/shims/flask "$@"
 fi
 EOF
 cat <<'EOF' > /opt/cs50/bin/http-server
