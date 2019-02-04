@@ -24,8 +24,11 @@
 #project:not(.editable) #directory-sidebar > .directory-sidebar__header {
     display: none;
 }
+
+/* Match padding around text in tabs */
 #project:not(.editable) #directory-sidebar > .file-list {
-    padding-top: 4px;
+    padding-left: 8px;
+    padding-top: 3px;
 }
 
 /* Hide text in empty panes */
