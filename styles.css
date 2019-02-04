@@ -3,6 +3,11 @@
     image-rendering: pixelated;
 }
 
+/* Eliminate min-width for mobile's sake */
+#project {
+    min-width: auto;
+}
+
 /* Hide lefthand sidebar */
 #project:not(.editable) > #left-sidebar-nav {
     display: none;
