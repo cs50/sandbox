@@ -4,12 +4,11 @@
 }
 
 /* Hide lefthand sidebar */
-#project:not(.editable) > .reflex-layout.reflex-container.vertical > .reflex-element:nth-child(1) {
+#project:not(.editable) > #left-sidebar-nav {
     display: none;
 }
-#project:not(.editable) > .reflex-layout.reflex-container.vertical > .reflex-element:nth-child(3) {
-    -webkit-box-flex: 1 !important;
-    flex: 1 1 0% !important;
+#project:not(.editable) > #left-sidebar-nav + .project-inner {
+    width: 100% !important;
 }
 
 /* Hide icons */
