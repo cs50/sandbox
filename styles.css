@@ -7,6 +7,9 @@
 #project {
     min-width: auto;
 }
+.modal-dialog {
+    width: auto;
+}
 
 /* Hide lefthand sidebar */
 #project:not(.editable) > #left-sidebar-nav {
