@@ -188,7 +188,6 @@ if [ "$PS1" ]; then
     alias cp="cp -i"
     alias gdb="gdb -q"
     alias ll="ls -l --color=auto"
-    alias make="make -B"
     alias mv="mv -i"
     alias pip="pip3 --no-cache-dir"
     alias pip3="pip3 --no-cache-dir"
@@ -218,17 +217,24 @@ if [ "$PS1" ]; then
     fi
 
     # make
-    function make
-    {
-        if [[ "$*" == *.c ]]
-        then
-            echo "Did you mean 'make ${*%.c}?'" >&2
+    make () {
+        local args=""
+        local invalid_args=0
+
+        for arg; do
+            case "$arg" in
+                (*.c) arg=${arg%.c}; invalid_args=1;;
+            esac
+            args="$args $arg"
+        done
+
+        if [ $invalid_args -eq 1 ]; then
+            echo "Did you mean 'make$args'?"
             return 1
         else
-            command make $*
+            command make -B $*
         fi
     }
-
 fi
 
 # cmd
