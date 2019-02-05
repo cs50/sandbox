@@ -19,6 +19,11 @@
     width: 100% !important;
 }
 
+/* https://feedback.codevolve.com/bug-reports/p/thin-white-border-along-righthand-side-of-vertical-project-innerreflex-element */
+#project:not(.editable) > #left-sidebar-nav + .project-inner > .reflex-element {
+    flex-grow: 1 !important;
+}
+
 /* Hide icons */
 #project:not(.editable) .pane-bottom-nav {
     display: none;
