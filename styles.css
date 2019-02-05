@@ -36,10 +36,10 @@
 }
 
 /* Hide root */
-#project:not(.editable) #directory-sidebar .file-list > .file {
+#project:not(.editable) #directory-sidebar .file-list > ul > li > .file {
     display: none;
 }
-#project:not(.editable) #directory-sidebar .file-list > ul {
+#project:not(.editable) #directory-sidebar .file-list > ul > li > ul {
     padding-left: 0;
 }
 
