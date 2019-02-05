@@ -24,22 +24,6 @@
     flex-grow: 1 !important;
 }
 
-/* Hide /root/sandbox */
-ul.file-list > ul > li > div.file {
-    display: none;
-}
-ul.file-list > ul > li > ul {
-    padding-left: 0;
-}
-
-/* Hide icons */
-#project:not(.editable) .pane-bottom-nav {
-    display: none;
-}
-#project:not(.editable) .code-space .codemirror-ide-editor {
-    max-height: 100%;
-}
-
 /* Hide filetree's header */
 #project:not(.editable) #directory-sidebar > .directory-sidebar__header {
     display: none;
@@ -51,7 +35,23 @@ ul.file-list > ul > li > ul {
     padding-top: 3px;
 }
 
+/* Hide root */
+#project:not(.editable) #directory-sidebar .file-list > .file {
+    display: none;
+}
+#project:not(.editable) #directory-sidebar .file-list > ul {
+    padding-left: 0;
+}
+
 /* Hide text in empty panes */
 #project:not(.editable) .empty-pane-inner {
     display: none;
+}
+
+/* Hide icons */
+#project:not(.editable) .pane-bottom-nav {
+    display: none;
+}
+#project:not(.editable) .code-space .codemirror-ide-editor {
+    max-height: 100%;
 }
