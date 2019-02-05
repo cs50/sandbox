@@ -24,6 +24,14 @@
     flex-grow: 1 !important;
 }
 
+/* Hide /root/sandbox */
+ul.file-list > ul > li > div.file {
+    display: none;
+}
+ul.file-list > ul > li > ul {
+    padding-left: 0;
+}
+
 /* Hide icons */
 #project:not(.editable) .pane-bottom-nav {
     display: none;
