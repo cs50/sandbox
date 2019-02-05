@@ -40,7 +40,7 @@
     display: none;
 }
 #project:not(.editable) #directory-sidebar .file-list > ul > li > ul {
-    padding-left: 0;
+    padding-left: 0 !important;
 }
 
 /* Hide text in empty panes */
