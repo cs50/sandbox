@@ -58,5 +58,5 @@
 
 /* Allow GUI to grow */
 #project .full-gui .inner .full-gui-frame-outer {
-    height: none;
+    max-height: none;
 }
