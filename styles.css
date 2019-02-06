@@ -55,3 +55,8 @@
 #project:not(.editable) .code-space .codemirror-ide-editor {
     max-height: 100%;
 }
+
+/* Allow GUI to grow */
+#project .full-gui .inner .full-gui-frame-outer {
+    height: none;
+}
