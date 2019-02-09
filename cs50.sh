@@ -19,11 +19,14 @@ apt-get update && \
         curl \
         dnsutils \
         dos2unix \
+        erlang \
         exiftool \
         expect `# For unbuffer` \
         gdb \
         gettext \
         git \
+        golang \
+        haskell-platform \
         imagemagick \
         info \
         man \
@@ -41,6 +44,7 @@ apt-get update && \
         ruby-dev `# Avoid "can't find header files for ruby" for gem` \
         s3cmd \
         sqlite3 \
+        swi-prolog \
         telnet \
         tk-dev \
         tree \
@@ -53,9 +57,18 @@ apt-get update && \
 
 # Git-specific
 # https://packagecloud.io/github/git-lfs/install
-# https://github.com/github/hub/releases
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash -e && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs
+
+# Java-specific
+# http://jdk.java.net/10/
+wget -P /tmp https://download.java.net/java/GA/jdk10/10.0.1/fb4372174a714e6b8c52526dc134031e/10//openjdk-10.0.1_linux-x64_bin.tar.gz && \
+    tar xzf /tmp/openjdk-10.0.1_linux-x64_bin.tar.gz -C /tmp && \
+    rm -f /tmp/openjdk-10.0.1_linux-x64_bin.tar.gz && \
+    mv /tmp/jdk-10.0.1 /opt/ && \
+    mkdir -p /opt/bin && \
+    ln -s /opt/jdk-10.0.1/bin/* /opt/bin/ && \
+    chmod a+rx /opt/bin/*
 
 # LÖVE-specific
 # https://bitbucket.org/rude/love/downloads/
