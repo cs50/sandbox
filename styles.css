@@ -15,7 +15,7 @@
 #project:not(.editable) > #left-sidebar-nav {
     display: none;
 }
-#project:not(.editable) > #left-sidebar-nav + .project-inner {
+#project:not(.editable) > .project-inner {
     width: 100% !important;
 }
 
