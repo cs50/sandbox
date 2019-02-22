@@ -29,6 +29,8 @@ apt-get update && \
         haskell-platform \
         imagemagick \
         info \
+        lua5.3 \
+        luarocks \
         man \
         mysql-client \
         nano \
