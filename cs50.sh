@@ -170,11 +170,11 @@ curl -s https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | b
     DEBIAN_FRONTEND=noninteractive apt-get install -y astyle libcs50 libcs50-java php-cs50
 "$PYENV_ROOT"/shims/pip3 install \
         cs50 \
-        check50 \
         help50 \
         render50 \
-        style50 \
-        submit50
+        style50
+
+"$PYENV_ROOT"/shims/pip3 install --upgrade 'check50<3' 'submit50<3'
 
 # Bash-specific
 mkdir -p /root/.bashrcs
