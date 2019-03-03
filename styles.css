@@ -42,7 +42,7 @@
 
 /* Shift filetree downward */
 #project:not(.editable) #directory-sidebar .file-list > ul > li > .file {
-    margin-top: 6px;
+    margin-top: 2px;
 }
 
 /* Don't highlight filetree's root on hover */
