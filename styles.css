@@ -30,6 +30,11 @@
     padding-top: 3px;
 }
 
+/* Hide filetree's header */
+#project:not(.editable) #directory-sidebar > .directory-sidebar__header {
+    display: none;
+}
+
 /* Reveal filetree's ellipses */
 #project #directory-sidebar .file-list .file .file-menu .file__menu-button {
     display: initial;
