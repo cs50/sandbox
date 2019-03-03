@@ -55,6 +55,11 @@
     display: none;
 }
 
+/* Deindent root's children */
+#project:not(.editable) #directory-sidebar .file-list > ul > li > ul {
+    padding-left: 0 !important;
+}
+
 /* Change filetree's first ellipsis to a plus */
 /* https://fontawesome.com/icons/plus?style=solid, http://fatopng.com/fontawesome-to-base64 */
 #project:not(.editable) #directory-sidebar .file-list > ul > li > .file .file-menu .file__menu-button::before {
