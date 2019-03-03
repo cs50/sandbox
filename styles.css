@@ -61,6 +61,11 @@
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABaklEQVQ4jaWUsUoEMRRFz12WjGyxlcgWIhYiaCP4CfoLFv6Fn+NPWFgLgghWIiiINhYiFltYLSJmkL0WzmiIcdfVC4FM8nLe5b1kZExJday7wADo20ZSDQxDFZ6LBxp1JuytAPvAuaQL28fAziQYQHfC3iKwbrvXfC8BG/8BdgAkfVubpKkBqexyvWcCppDM7ezAprtTIakUY+wDu7bXJHUSyJLtLaCfxF9KOs0SjoEr4CBU4VkxxlXbZ5LmSw6/OSg7fgC2QxXuOkCQNN8ezmuWj1Ii2wtAgK8ajtvg1IFt0kTtvOBy3E66wAg4AZazoF5ThvSujoCnnCbpxvYIPpoSbK8CA0lp1zdt70kaJI4PJe23jiVheww8SroLVXjrhirUwHUzPlXHGkkvmZOHUIWj3GGqH+/hb17FTMDS9fjX02tqk6u09jugpCFwn0CegNtpQP30x46vMTQd7gPYroFhNVeN/gT8q94B/WeewuZkyj4AAAAASUVORK5CYII=');
 }
 
+/* Hide "No Files" */
+#project:not(.editable) #directory-sidebar .file-list .directory-no-files {
+    display: none;
+}
+
 /* Hide text in empty panes */
 #project:not(.editable) .empty-pane-inner {
     display: none;
