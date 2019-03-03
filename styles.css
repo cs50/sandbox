@@ -24,23 +24,35 @@
     flex-grow: 1 !important;
 }
 
-/* Hide filetree's header */
-#project:not(.editable) #directory-sidebar > .directory-sidebar__header {
-    display: none;
-}
-
 /* Match padding around text in tabs */
 #project:not(.editable) #directory-sidebar > .file-list {
     padding-left: 8px;
     padding-top: 3px;
 }
 
-/* Hide root */
+/* Reveal filetree's ellipses */
+#project #directory-sidebar .file-list .file .file-menu .file__menu-button {
+    display: initial;
+}
+
+/* Shift filetree downward */
 #project:not(.editable) #directory-sidebar .file-list > ul > li > .file {
+    margin-top: 6px;
+}
+
+/* Don't highlight filetree's root on hover */
+#project:not(.editable) #directory-sidebar .file-list > ul > li > .file:hover .active-bar {
+    background-color: initial;
+}
+
+/* Hide filetree's root */
+#project:not(.editable) #directory-sidebar .file-list > ul > li > .file .filename {
     display: none;
 }
-#project:not(.editable) #directory-sidebar .file-list > ul > li > ul {
-    padding-left: 0 !important;
+
+/* Change filetree's first ellipsis to a plus */
+#project:not(.editable) #directory-sidebar .file-list > ul > li > .file .file-menu .file__menu-button::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABaklEQVQ4jaWUsUoEMRRFz12WjGyxlcgWIhYiaCP4CfoLFv6Fn+NPWFgLgghWIiiINhYiFltYLSJmkL0WzmiIcdfVC4FM8nLe5b1kZExJday7wADo20ZSDQxDFZ6LBxp1JuytAPvAuaQL28fAziQYQHfC3iKwbrvXfC8BG/8BdgAkfVubpKkBqexyvWcCppDM7ezAprtTIakUY+wDu7bXJHUSyJLtLaCfxF9KOs0SjoEr4CBU4VkxxlXbZ5LmSw6/OSg7fgC2QxXuOkCQNN8ezmuWj1Ii2wtAgK8ajtvg1IFt0kTtvOBy3E66wAg4AZazoF5ThvSujoCnnCbpxvYIPpoSbK8CA0lp1zdt70kaJI4PJe23jiVheww8SroLVXjrhirUwHUzPlXHGkkvmZOHUIWj3GGqH+/hb17FTMDS9fjX02tqk6u09jugpCFwn0CegNtpQP30x46vMTQd7gPYroFhNVeN/gT8q94B/WeewuZkyj4AAAAASUVORK5CYII=');
 }
 
 /* Hide text in empty panes */
