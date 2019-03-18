@@ -117,15 +117,18 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
     mv /tmp/pyenv-master "$PYENV_ROOT" && \
     chmod a+x "$PYENV_ROOT"/bin/* && \
     "$PYENV_ROOT"/bin/pyenv install 2.7.15 && \
-    "$PYENV_ROOT"/bin/pyenv install 3.7.1 && \
+    "$PYENV_ROOT"/bin/pyenv install 3.7.2 && \
     "$PYENV_ROOT"/bin/pyenv rehash && \
-    "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.7.1 &&
+    "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.7.2 &&
     "$PYENV_ROOT"/shims/pip2 install --upgrade pip && \
     "$PYENV_ROOT"/shims/pip3 install --upgrade pip && \
     "$PYENV_ROOT"/shims/pip3 install \
         awscli \
         Flask \
-        Flask-Session
+        Flask-Session \
+        matplotlib \
+        numpy \
+        pandas
 
 # Ruby-specific
 gem install \
@@ -174,7 +177,6 @@ curl -s https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | b
         help50 \
         render50 \
         style50
-
 "$PYENV_ROOT"/shims/pip3 install --upgrade 'check50<3' 'submit50<3'
 
 # Bash-specific
