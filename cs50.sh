@@ -169,6 +169,7 @@ EOF
 curl -s https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | bash -e && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y astyle libcs50 libcs50-java php-cs50
 "$PYENV_ROOT"/shims/pip3 install \
+        compare50 \
         cs50 \
         help50 \
         render50 \
