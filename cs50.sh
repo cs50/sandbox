@@ -35,6 +35,7 @@ apt-get update && \
         mysql-client \
         nano \
         ocaml \
+        octave \
         openjdk-11-jdk-headless `# Java 10` \
         perl \
         php7.2-cli \
