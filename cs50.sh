@@ -36,7 +36,6 @@ apt-get update && \
         nano \
         ocaml \
         octave \
-        openjdk-11-jdk-headless `# Java 10` \
         perl \
         php7.2-cli \
         php7.2-curl \
@@ -64,13 +63,13 @@ curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.s
     DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs
 
 # Java-specific
-# http://jdk.java.net/10/
-wget -P /tmp https://download.java.net/java/GA/jdk10/10.0.1/fb4372174a714e6b8c52526dc134031e/10//openjdk-10.0.1_linux-x64_bin.tar.gz && \
-    tar xzf /tmp/openjdk-10.0.1_linux-x64_bin.tar.gz -C /tmp && \
-    rm -f /tmp/openjdk-10.0.1_linux-x64_bin.tar.gz && \
-    mv /tmp/jdk-10.0.1 /opt/ && \
+# http://jdk.java.net/12/
+wget -P /tmp https://download.java.net/java/GA/jdk12/GPL/openjdk-12_linux-x64_bin.tar.gz && \
+    tar xzf /tmp/openjdk-12_linux-x64_bin.tar.gz -C /tmp && \
+    rm -f /tmp/openjdk-12_linux-x64_bin.tar.gz && \
+    mv /tmp/jdk-12 /opt/ && \
     mkdir -p /opt/bin && \
-    ln -s /opt/jdk-10.0.1/bin/* /opt/bin/ && \
+    ln -s /opt/jdk-12/bin/* /opt/bin/ && \
     chmod a+rx /opt/bin/*
 
 # Lua-specific
@@ -228,6 +227,7 @@ if [ "$PS1" ]; then
     export LANGUAGE=C.UTF-8
     export LC_ALL=C.UTF-8
     export LDLIBS="-lcrypt -lcs50 -lm"
+    export JAVA_HOME="/opt/jdk-12"
     export PYTHONDONTWRITEBYTECODE="1"
     export VALGRIND_OPTS="--memcheck:leak-check=full --memcheck:track-origins=yes"
 
