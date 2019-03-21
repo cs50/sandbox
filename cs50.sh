@@ -61,6 +61,11 @@ apt-get update && \
 # https://packagecloud.io/github/git-lfs/install
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash -e && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs
+wget -P /tmp https://github.com/github/hub/releases/download/v2.10.0/hub-linux-amd64-2.10.0.tgz && \
+    tar xvf /tmp/hub-linux-amd64-2.10.0.tgz -C /tmp && \
+    rm -f /tmp/hub-linux-amd64-2.10.0.tgz && \
+    /tmp/hub-linux-amd64-2.10.0/install && \
+    rm -rf /tmp/hub-linux-amd64-2.10.0
 
 # Java-specific
 # http://jdk.java.net/12/
@@ -216,6 +221,7 @@ if [ "$PS1" ]; then
     alias pip3="pip3 --no-cache-dir"
     alias python="python3"
     alias rm="rm -i"
+    eval "$(hub alias -s)"
 
     # Environment variables
     export CC="clang"
@@ -259,6 +265,9 @@ if [ "$PS1" ]; then
             command make -B $*
         fi
     }
+
+    # git
+    git config --global hub.protocol https
 fi
 
 # cmd
