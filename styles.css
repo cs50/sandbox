@@ -75,16 +75,3 @@
 #project:not(.editable) .empty-pane-inner {
     display: none;
 }
-
-/* Hide icons */
-#project:not(.editable) .pane-bottom-nav {
-    display: none;
-}
-#project:not(.editable) .code-space .codemirror-ide-editor {
-    max-height: 100%;
-}
-
-/* Allow GUI to grow */
-#project .full-gui .inner .full-gui-frame-outer {
-    max-height: none;
-}
