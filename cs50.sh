@@ -13,7 +13,7 @@ apt-get update && \
         bc \
         bsdtar \
         build-essential \
-        clang \
+        clang-6.0 \
         cmake \
         composer \
         curl \
@@ -55,26 +55,23 @@ apt-get update && \
         vim \
         wget \
         zip && \
+    update-alternatives --install /usr/bin/clang clang $(which clang-6.0) 1 && \
     apt-file update
 
 # Git-specific
 # https://packagecloud.io/github/git-lfs/install
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash -e && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs
-wget -P /tmp https://github.com/github/hub/releases/download/v2.10.0/hub-linux-amd64-2.10.0.tgz && \
-    tar xvf /tmp/hub-linux-amd64-2.10.0.tgz -C /tmp && \
-    rm -f /tmp/hub-linux-amd64-2.10.0.tgz && \
-    /tmp/hub-linux-amd64-2.10.0/install && \
-    rm -rf /tmp/hub-linux-amd64-2.10.0
 
-# Java-specific
+# Install Java 12
 # http://jdk.java.net/12/
-wget -P /tmp https://download.java.net/java/GA/jdk12/GPL/openjdk-12_linux-x64_bin.tar.gz && \
-    tar xzf /tmp/openjdk-12_linux-x64_bin.tar.gz -C /tmp && \
-    rm -f /tmp/openjdk-12_linux-x64_bin.tar.gz && \
-    mv /tmp/jdk-12 /opt/ && \
+cd /tmp && \
+    wget https://download.java.net/java/GA/jdk12.0.1/69cfe15208a647278a19ef0990eea691/12/GPL/openjdk-12.0.1_linux-x64_bin.tar.gz && \
+    tar xzf openjdk-12.0.1_linux-x64_bin.tar.gz && \
+    rm -f openjdk-12.0.1_linux-x64_bin.tar.gz && \
+    mv jdk-12.0.1 /opt/ && \
     mkdir -p /opt/bin && \
-    ln -s /opt/jdk-12/bin/* /opt/bin/ && \
+    ln -s /opt/jdk-12.0.1/bin/* /opt/bin/ && \
     chmod a+rx /opt/bin/*
 
 # Lua-specific
@@ -90,56 +87,71 @@ wget -P /tmp https://bitbucket.org/rude/love/downloads/love_0.10.2ppa1_amd64.deb
     DEBIAN_FRONTEND=noninteractive apt-get -f install -y && \
     rm -f /tmp/love_0.10.2ppa1_amd64.deb /tmp/liblove0_0.10.2ppa1_amd64.deb
 
-# Node.js-specific
-curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs && \
-    npm install -g npm && \
-    npm install -g http-server
+# Install Node.js 12.x
+# https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions-enterprise-linux-fedora-and-snap-packages
+# https://github.com/nodesource/distributions/blob/master/README.md#debinstall
+curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g npm `# Upgrades npm to latest` && \
+    npm install -g grunt http-server nodemon
 
-# Python-specific
-# https://github.com/yyuu/pyenv/blob/master/README.md#installation
-# https://github.com/yyuu/pyenv/wiki/Common-build-problems
-export PYENV_ROOT=/opt/pyenv
-DEBIAN_FRONTEND=noninteractive apt-get install -y \
+# Install Python 3.7
+# https://www.python.org/downloads/
+# https://stackoverflow.com/a/44758621/5156190
+apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
         build-essential \
-        curl \
         libbz2-dev \
-        libffi-dev \
-        libncurses5-dev \
+        libc6-dev \
+        libgdbm-dev \
         libncursesw5-dev \
-        libreadline-dev \
+        libreadline-gplv2-dev \
         libsqlite3-dev \
         libssl-dev \
-        llvm \
-        make \
         tk-dev \
-        wget \
-        xz-utils \
         zlib1g-dev && \
-    wget -P /tmp https://github.com/pyenv/pyenv/archive/master.zip && \
-    unzip -d /tmp /tmp/master.zip && \
-    rm -f /tmp/master.zip && \
-    mv /tmp/pyenv-master "$PYENV_ROOT" && \
-    chmod a+x "$PYENV_ROOT"/bin/* && \
-    "$PYENV_ROOT"/bin/pyenv install 2.7.15 && \
-    "$PYENV_ROOT"/bin/pyenv install 3.7.2 && \
-    "$PYENV_ROOT"/bin/pyenv rehash && \
-    "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.7.2 &&
-    "$PYENV_ROOT"/shims/pip2 install --upgrade pip && \
-    "$PYENV_ROOT"/shims/pip3 install --upgrade pip && \
-    "$PYENV_ROOT"/shims/pip3 install \
-        awscli \
+    cd /tmp && \
+    wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz && \
+    tar xzf Python-3.7.3.tgz && \
+    rm -f Python-3.7.3.tgz && \
+    cd Python-3.7.3 && \
+    ./configure && \
+    make && \
+    make install && \
+    cd .. && \
+    rm -rf Python-3.7.3 && \
+    pip3 install --upgrade pip
+
+# Install CS50 packages
+pip3 install \
+        cs50 \
         Flask \
         Flask-Session \
+        style50
+pip3 install --upgrade 'check50<3' 'submit50<3'
+pip3 install \
+        awsebcli \
+        awscli `# must come after awsebcli to ensure supported version` \
+        compare50 \
+        help50 \
         matplotlib \
         numpy \
-        pandas
+        pandas \
+        render50 \
+        submit50 \
+        virtualenv
 
-# Ruby-specific
+# Install Heroku CLI
+RUN curl https://cli-assets.heroku.com/install.sh | sh
+
+# Install fpm, asciidoctor
+# https://github.com/asciidoctor/jekyll-asciidoc/issues/135#issuecomment-241948040
+# https://github.com/asciidoctor/jekyll-asciidoc#development
 gem install \
     asciidoctor \
     bundler \
     fpm \
+    github-pages \
     jekyll \
     jekyll-asciidoc \
     pygments.rb
@@ -176,13 +188,6 @@ EOF
 # CS50-specific
 curl -s https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | bash -e && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y astyle libcs50 libcs50-java php-cs50
-"$PYENV_ROOT"/shims/pip3 install \
-        compare50 \
-        cs50 \
-        help50 \
-        render50 \
-        style50
-"$PYENV_ROOT"/shims/pip3 install --upgrade 'check50<3' 'submit50<3'
 
 # Bash-specific
 mkdir -p /root/.bashrcs
@@ -193,8 +198,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # PATH
-export PYENV_ROOT=/opt/pyenv
-export PATH=/opt/cs50/bin:"$HOME"/.local/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export PATH=/opt/cs50/bin:"$HOME"/.local/bin:/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Interactive shells
 if [ "$PS1" ]; then
@@ -202,7 +206,7 @@ if [ "$PS1" ]; then
     # Simplify prompt
     export PS1='$ '
 
-    # Override HOME for cd if ~/workspace exists
+    # Override HOME for cd if ~/sandbox exists
     cd()
     {
         if [ -d "$HOME"/sandbox ]; then
@@ -215,13 +219,13 @@ if [ "$PS1" ]; then
     # Aliases
     alias cp="cp -i"
     alias gdb="gdb -q"
-    alias ll="ls -l --color=auto"
+    alias ls="ls -F"
+    alias ll="ls -F -l"
     alias mv="mv -i"
     alias pip="pip3 --no-cache-dir"
     alias pip3="pip3 --no-cache-dir"
     alias python="python3"
     alias rm="rm -i"
-    eval "$(hub alias -s)"
 
     # Environment variables
     export CC="clang"
@@ -265,9 +269,6 @@ if [ "$PS1" ]; then
             command make -B $*
         fi
     }
-
-    # git
-    git config --global hub.protocol https
 fi
 
 # cmd
@@ -315,9 +316,9 @@ if [[ "$1" == "run" ]]; then
     fuser --kill -INT "${port//[^0-9]}/tcp" &> /dev/null
 
     # Spawn flask
-    FLASK_APP="$FLASK_APP" FLASK_DEBUG="${FLASK_DEBUG:-0}" unbuffer /opt/pyenv/shims/flask run $host $port $reload $threads $options | sed "s#\(.*http://\)[^:]\+\(:.\+\)#\1localhost\2#"
+    FLASK_APP="$FLASK_APP" FLASK_DEBUG="${FLASK_DEBUG:-0}" unbuffer /usr/local/bin/flask run $host $port $reload $threads $options | sed "s#\(.*http://\)[^:]\+\(:.\+\)#\1localhost\2#"
 else
-    /opt/pyenv/shims/flask "$@"
+    /usr/local/bin/flask "$@"
 fi
 EOF
 cat <<'EOF' > /opt/cs50/bin/http-server
@@ -367,8 +368,8 @@ EOF
 chmod a+rx /opt/cs50/bin/*
 
 # Ubuntu-specific
-useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
-    umask 0077 && \
-    mkdir -p /home/ubuntu && \
-    chown -R ubuntu:ubuntu /home/ubuntu && \
-    echo "ubuntu:crimson" | chpasswd
+#useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
+#    umask 0077 && \
+#    mkdir -p /home/ubuntu && \
+#    chown -R ubuntu:ubuntu /home/ubuntu && \
+#    echo "ubuntu:crimson" | chpasswd
