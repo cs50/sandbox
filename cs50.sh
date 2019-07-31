@@ -126,7 +126,9 @@ apt-get update && \
 cd /tmp && \
     wget https://swift.org/builds/swift-5.0.2-release/ubuntu1804/swift-5.0.2-RELEASE/swift-5.0.2-RELEASE-ubuntu18.04.tar.gz && \
     tar xzf swift-5.0.2-RELEASE-ubuntu18.04.tar.gz --strip-components=1 -C / && \
-    rm -f swift-5.0.2-RELEASE-ubuntu18.04.tar.gz
+    rm -f swift-5.0.2-RELEASE-ubuntu18.04.tar.gz && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y libpython2.7
 
 # Install CS50 packages
 pip3 install \
