@@ -234,6 +234,7 @@ if [ "$PS1" ]; then
     alias pip3="pip3 --no-cache-dir"
     alias python="python3"
     alias rm="rm -i"
+    alias swift="swift 2> /dev/null"  # https://github.com/cs50/sandbox/issues/26
 
     # Environment variables
     export CC="clang"
