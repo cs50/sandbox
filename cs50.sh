@@ -91,7 +91,7 @@ wget -P /tmp https://bitbucket.org/rude/love/downloads/love_0.10.2ppa1_amd64.deb
 # https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions-enterprise-linux-fedora-and-snap-packages
 # https://github.com/nodesource/distributions/blob/master/README.md#debinstall
 curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
-    apt-get install -y nodejs && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs && \
     npm install -g npm `# Upgrades npm to latest` && \
     npm install -g grunt http-server nodemon
 
@@ -123,7 +123,7 @@ apt-get update && \
     pip3 install --upgrade pip
 
 # Install Swift 5.0
-RUN cd /tmp && \
+cd /tmp && \
     wget https://swift.org/builds/swift-5.0.2-release/ubuntu1804/swift-5.0.2-RELEASE/swift-5.0.2-RELEASE-ubuntu18.04.tar.gz && \
     tar xzf swift-5.0.2-RELEASE-ubuntu18.04.tar.gz --strip-components=1 -C / && \
     rm -f swift-5.0.2-RELEASE-ubuntu18.04.tar.gz
@@ -236,7 +236,7 @@ if [ "$PS1" ]; then
     # Environment variables
     export CC="clang"
     export CFLAGS="-fsanitize=signed-integer-overflow -fsanitize=undefined -ggdb3 -O0 -std=c11 -Wall -Werror -Wextra -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wshadow"
-    export CLASSPATH ".:/usr/share/java/cs50.jar"
+    export CLASSPATH=".:/usr/share/java/cs50.jar"
     export EDITOR=nano
     export FLASK_APP=application.py
     export FLASK_ENV=development
