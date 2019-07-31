@@ -148,7 +148,7 @@ pip3 install \
         virtualenv
 
 # Install Heroku CLI
-RUN curl https://cli-assets.heroku.com/install.sh | sh
+curl https://cli-assets.heroku.com/install.sh | sh
 
 # Install fpm, asciidoctor
 # https://github.com/asciidoctor/jekyll-asciidoc/issues/135#issuecomment-241948040
