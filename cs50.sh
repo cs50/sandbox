@@ -132,11 +132,12 @@ cd /tmp && \
 
 # Install CS50 packages
 pip3 install \
+        check50 \
         cs50 \
         Flask \
         Flask-Session \
-        style50
-pip3 install --upgrade 'check50<3' 'submit50<3'
+        style50 \
+        submit50
 pip3 install \
         awsebcli \
         awscli `# must come after awsebcli to ensure supported version` \
