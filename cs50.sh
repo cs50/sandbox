@@ -139,8 +139,7 @@ pip3 install \
         style50 \
         submit50
 pip3 install \
-        awsebcli \
-        awscli `# must come after awsebcli to ensure supported version` \
+        awscli \
         compare50 \
         help50 \
         matplotlib \
