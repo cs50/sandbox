@@ -227,7 +227,7 @@ if [ "$PS1" ]; then
     # Aliases
     alias cp="cp -i"
     alias gdb="gdb -q"
-    alias ls="ls -F"
+    alias ls="ls --color=auto -F"
     alias ll="ls -F -l"
     alias mv="mv -i"
     alias pip="pip3 --no-cache-dir"
