@@ -1,6 +1,33 @@
 #!/bin/bash
 set -e
 
+# Install Python 3.7
+# https://www.python.org/downloads/
+# https://stackoverflow.com/a/44758621/5156190
+apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        build-essential \
+        libbz2-dev \
+        libc6-dev \
+        libgdbm-dev \
+        libncursesw5-dev \
+        libreadline-gplv2-dev \
+        libsqlite3-dev \
+        libssl-dev \
+        tk-dev \
+        zlib1g-dev && \
+    cd /tmp && \
+    wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz && \
+    tar xzf Python-3.7.3.tgz && \
+    rm -f Python-3.7.3.tgz && \
+    cd Python-3.7.3 && \
+    ./configure && \
+    make && \
+    make install && \
+    cd .. && \
+    rm -rf Python-3.7.3 && \
+    pip3 install --upgrade pip
+
 # Ubuntu-specific
 apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common && \
@@ -94,33 +121,6 @@ curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs && \
     npm install -g npm `# Upgrades npm to latest` && \
     npm install -g grunt http-server nodemon
-
-# Install Python 3.7
-# https://www.python.org/downloads/
-# https://stackoverflow.com/a/44758621/5156190
-apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        build-essential \
-        libbz2-dev \
-        libc6-dev \
-        libgdbm-dev \
-        libncursesw5-dev \
-        libreadline-gplv2-dev \
-        libsqlite3-dev \
-        libssl-dev \
-        tk-dev \
-        zlib1g-dev && \
-    cd /tmp && \
-    wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz && \
-    tar xzf Python-3.7.3.tgz && \
-    rm -f Python-3.7.3.tgz && \
-    cd Python-3.7.3 && \
-    ./configure && \
-    make && \
-    make install && \
-    cd .. && \
-    rm -rf Python-3.7.3 && \
-    pip3 install --upgrade pip
 
 # Install Swift 5.0
 cd /tmp && \
