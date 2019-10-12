@@ -249,7 +249,7 @@ if [ "$PS1" ]; then
     export LDLIBS="-lcrypt -lcs50 -lm"
     export JAVA_HOME="/opt/jdk-12"
     export PYTHONDONTWRITEBYTECODE="1"
-    export VALGRIND_OPTS="--memcheck:leak-check=full --memcheck:track-origins=yes"
+    export VALGRIND_OPTS="--memcheck:leak-check=full --memcheck:show-leak-kinds=all --memcheck:track-origins=yes"
 
     # History
     # https://www.shellhacks.com/tune-command-line-history-bash/
