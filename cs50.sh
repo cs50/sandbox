@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eo pipefail
 
 # Install Python 3.8
 # https://www.python.org/downloads/
@@ -9,12 +9,14 @@ apt-get update && \
         build-essential \
         libbz2-dev \
         libc6-dev \
+        libffi-dev `# For ctypes module` \
         libgdbm-dev \
         libncursesw5-dev \
         libreadline-gplv2-dev \
         libsqlite3-dev \
         libssl-dev \
         tk-dev \
+        wget \
         zlib1g-dev && \
     cd /tmp && \
     wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz && \
@@ -56,6 +58,7 @@ apt-get update && \
         haskell-platform \
         imagemagick \
         info \
+        libjpeg8-dev `For Pillow` \
         lua5.3 \
         luarocks \
         man \
@@ -80,7 +83,6 @@ apt-get update && \
         unzip \
         valgrind \
         vim \
-        wget \
         zip && \
     update-alternatives --install /usr/bin/clang clang $(which clang-6.0) 1 && \
     apt-file update
