@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# Install Python 3.7
+# Install Python 3.8
 # https://www.python.org/downloads/
 # https://stackoverflow.com/a/44758621/5156190
 apt-get update && \
@@ -17,15 +17,15 @@ apt-get update && \
         tk-dev \
         zlib1g-dev && \
     cd /tmp && \
-    wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz && \
-    tar xzf Python-3.7.3.tgz && \
-    rm -f Python-3.7.3.tgz && \
-    cd Python-3.7.3 && \
+    wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz && \
+    tar xzf Python-3.8.0.tgz && \
+    rm -f Python-3.8.0.tgz && \
+    cd Python-3.8.0 && \
     ./configure && \
     make && \
     make install && \
     cd .. && \
-    rm -rf Python-3.7.3 && \
+    rm -rf Python-3.8.0 && \
     pip3 install --upgrade pip
 
 # Ubuntu-specific
