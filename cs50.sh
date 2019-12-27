@@ -84,7 +84,7 @@ apt-get update && \
         valgrind \
         vim \
         zip && \
-    update-alternatives --removall clang && \
+    update-alternatives --removeall clang && \
     update-alternatives --install /usr/bin/clang clang $(which clang-8) 1
 
 # Git-specific
