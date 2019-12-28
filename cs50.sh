@@ -32,7 +32,6 @@ apt-get update && \
 
 # Ubuntu-specific
 apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         apt-file \
@@ -83,9 +82,7 @@ apt-get update && \
         unzip \
         valgrind \
         vim \
-        zip && \
-    update-alternatives --removeall clang && \
-    update-alternatives --install /usr/bin/clang clang $(which clang-8) 1
+        zip
 
 # Git-specific
 # https://packagecloud.io/github/git-lfs/install
@@ -198,6 +195,10 @@ EOF
 # CS50-specific
 curl -s https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | bash -e && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y astyle libcs50 libcs50-java php-cs50
+
+# Configure clang 8 last, else 7 takes priority
+(update-alternatives --remove-all clang || true) && \
+    update-alternatives --install /usr/bin/clang clang $(which clang-8) 1
 
 # Bash-specific
 mkdir -p /root/.bashrcs
