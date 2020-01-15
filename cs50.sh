@@ -32,7 +32,6 @@ apt-get update && \
 
 # Ubuntu-specific
 apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         apt-file \
@@ -42,7 +41,7 @@ apt-get update && \
         bc \
         bsdtar \
         build-essential \
-        clang-6.0 \
+        clang-8 \
         cmake \
         composer \
         curl \
@@ -83,24 +82,22 @@ apt-get update && \
         unzip \
         valgrind \
         vim \
-        zip && \
-    update-alternatives --install /usr/bin/clang clang $(which clang-6.0) 1 && \
-    apt-file update
+        zip
 
 # Git-specific
 # https://packagecloud.io/github/git-lfs/install
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash -e && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs
 
-# Install Java 12
-# http://jdk.java.net/12/
+# Install Java 13
+# http://jdk.java.net/13/
 cd /tmp && \
-    wget https://download.java.net/java/GA/jdk12.0.1/69cfe15208a647278a19ef0990eea691/12/GPL/openjdk-12.0.1_linux-x64_bin.tar.gz && \
-    tar xzf openjdk-12.0.1_linux-x64_bin.tar.gz && \
-    rm -f openjdk-12.0.1_linux-x64_bin.tar.gz && \
-    mv jdk-12.0.1 /opt/ && \
+    wget https://download.java.net/java/GA/jdk13.0.1/cec27d702aa74d5a8630c65ae61e4305/9/GPL/openjdk-13.0.1_linux-x64_bin.tar.gz && \
+    tar xzf openjdk-13.0.1_linux-x64_bin.tar.gz && \
+    rm -f openjdk-13.0.1_linux-x64_bin.tar.gz && \
+    mv jdk-13.0.1 /opt/ && \
     mkdir -p /opt/bin && \
-    ln -s /opt/jdk-12.0.1/bin/* /opt/bin/ && \
+    ln -s /opt/jdk-13.0.1/bin/* /opt/bin/ && \
     chmod a+rx /opt/bin/*
 
 # Lua-specific
@@ -116,19 +113,19 @@ wget -P /tmp https://bitbucket.org/rude/love/downloads/love_0.10.2ppa1_amd64.deb
     DEBIAN_FRONTEND=noninteractive apt-get -f install -y && \
     rm -f /tmp/love_0.10.2ppa1_amd64.deb /tmp/liblove0_0.10.2ppa1_amd64.deb
 
-# Install Node.js 12.x
+# Install Node.js 13.x
 # https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions-enterprise-linux-fedora-and-snap-packages
 # https://github.com/nodesource/distributions/blob/master/README.md#debinstall
-curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+curl -sL https://deb.nodesource.com/setup_13.x | bash - && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs && \
     npm install -g npm `# Upgrades npm to latest` && \
     npm install -g grunt http-server nodemon
 
-# Install Swift 5.0
+# Install Swift 5.1
 cd /tmp && \
-    wget https://swift.org/builds/swift-5.0.2-release/ubuntu1804/swift-5.0.2-RELEASE/swift-5.0.2-RELEASE-ubuntu18.04.tar.gz && \
-    tar xzf swift-5.0.2-RELEASE-ubuntu18.04.tar.gz --strip-components=1 -C / && \
-    rm -f swift-5.0.2-RELEASE-ubuntu18.04.tar.gz && \
+    wget https://swift.org/builds/swift-5.1.3-release/ubuntu1804/swift-5.1.3-RELEASE/swift-5.1.3-RELEASE-ubuntu18.04.tar.gz && \
+    tar xzf swift-5.1.3-RELEASE-ubuntu18.04.tar.gz --strip-components=1 -C / && \
+    rm -f swift-5.1.3-RELEASE-ubuntu18.04.tar.gz && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y libpython2.7
 
@@ -198,6 +195,10 @@ EOF
 # CS50-specific
 curl -s https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | bash -e && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y astyle libcs50 libcs50-java php-cs50
+
+# Configure clang 8 last, else 7 takes priority
+(update-alternatives --remove-all clang || true) && \
+    update-alternatives --install /usr/bin/clang clang $(which clang-8) 1
 
 # Bash-specific
 mkdir -p /root/.bashrcs
