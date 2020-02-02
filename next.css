@@ -1,0 +1,12 @@
+/* Pixelate images */
+#project:not(.editable) .remote-img-inner {
+    image-rendering: pixelated;
+}
+
+/* Hide icons */
+#project:not(.editable) .pane-bottom-nav {
+    display: none;
+}
+#project:not(.editable) .code-space .codemirror-ide-editor {
+    max-height: 100%;
+}
