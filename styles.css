@@ -16,7 +16,7 @@
     display: none;
 }
 #project:not(.editable) > .project-inner {
-    width: 100% !important;
+    max-width: unset;
 }
 
 /* https://feedback.codevolve.com/bug-reports/p/thin-white-border-along-righthand-side-of-vertical-project-innerreflex-element */
