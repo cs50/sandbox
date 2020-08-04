@@ -250,7 +250,7 @@ if [ "$PS1" ]; then
     export LANGUAGE=C.UTF-8
     export LC_ALL=C.UTF-8
     export LDLIBS="-lcrypt -lcs50 -lm"
-    export JAVA_HOME="/opt/jdk-12"
+    export JAVA_HOME="/opt/jdk-13.0.1"
     export PYTHONDONTWRITEBYTECODE="1"
     export VALGRIND_OPTS="--memcheck:leak-check=full --memcheck:show-leak-kinds=all --memcheck:track-origins=yes"
 
