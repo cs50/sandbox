@@ -1,8 +1,0 @@
-install: true
-script: true
-before_deploy: rm -rf gh-pages && mkdir gh-pages && cp next.css scripts.js styles.css gh-pages
-deploy:
-  provider: pages
-  github-token: $GH_TOKEN
-  local-dir: gh-pages
-  skip_cleanup: true
