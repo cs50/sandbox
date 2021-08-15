@@ -131,21 +131,20 @@ cd /tmp && \
 
 # Install CS50 packages
 pip3 install \
-        check50 \
-        cs50 \
+        check50==3.3.3 \
+        cs50==7.0.2 \
         Flask \
         Flask-Session \
-        style50 \
-        submit50
+        style50==2.7.5 \
+        submit50==3.1.0
 pip3 install \
         awscli \
-        compare50 \
-        help50 \
+        compare50==1.2.4 \
+        help50==3.0.5 \
         matplotlib \
         numpy \
         pandas \
-        render50 \
-        submit50 \
+        render50==5.1.0 \
         virtualenv
 
 # Install Heroku CLI
