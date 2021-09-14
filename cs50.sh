@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eo pipefail
 
-# Install Python 3.7
+# Install Python 3.9
 # https://www.python.org/downloads/
 # https://stackoverflow.com/a/44758621/5156190
 apt-get update && \
@@ -19,15 +19,15 @@ apt-get update && \
         wget \
         zlib1g-dev && \
     cd /tmp && \
-    wget https://www.python.org/ftp/python/3.7.6/Python-3.7.6.tgz && \
-    tar xzf Python-3.7.6.tgz && \
-    rm -f Python-3.7.6.tgz && \
-    cd Python-3.7.6 && \
+    wget https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz && \
+    tar xzf Python-3.9.6.tgz && \
+    rm -f Python-3.9.6.tgz && \
+    cd Python-3.9.6 && \
     ./configure && \
     make && \
     make install && \
     cd .. && \
-    rm -rf Python-3.7.6 && \
+    rm -rf Python-3.9.6 && \
     pip3 install --upgrade pip
 
 # Ubuntu-specific
