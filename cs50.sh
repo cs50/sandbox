@@ -113,10 +113,10 @@ wget -P /tmp https://bitbucket.org/rude/love/downloads/love_0.10.2ppa1_amd64.deb
     DEBIAN_FRONTEND=noninteractive apt-get -f install -y && \
     rm -f /tmp/love_0.10.2ppa1_amd64.deb /tmp/liblove0_0.10.2ppa1_amd64.deb
 
-# Install Node.js 13.x
+# Install Node.js 16.x
 # https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions-enterprise-linux-fedora-and-snap-packages
 # https://github.com/nodesource/distributions/blob/master/README.md#debinstall
-curl -sL https://deb.nodesource.com/setup_13.x | bash - && \
+curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs && \
     npm install -g npm `# Upgrades npm to latest` && \
     npm install -g grunt http-server nodemon
