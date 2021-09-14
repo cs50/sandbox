@@ -89,15 +89,15 @@ apt-get update && \
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash -e && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs
 
-# Install Java 13
-# http://jdk.java.net/13/
+# Install Java 16.x
+# http://jdk.java.net/16/
 cd /tmp && \
-    wget https://download.java.net/java/GA/jdk13.0.1/cec27d702aa74d5a8630c65ae61e4305/9/GPL/openjdk-13.0.1_linux-x64_bin.tar.gz && \
-    tar xzf openjdk-13.0.1_linux-x64_bin.tar.gz && \
-    rm -f openjdk-13.0.1_linux-x64_bin.tar.gz && \
-    mv jdk-13.0.1 /opt/ && \
+    wget https://download.java.net/java/GA/jdk16.0.2/d4a915d82b4c4fbb9bde534da945d746/7/GPL/openjdk-16.0.2_linux-x64_bin.tar.gz && \
+    tar xzf openjdk-16.0.2_linux-x64_bin.tar.gz && \
+    rm -f openjdk-16.0.2_linux-x64_bin.tar.gz && \
+    mv jdk-16.0.2 /opt/ && \
     mkdir -p /opt/bin && \
-    ln -s /opt/jdk-13.0.1/bin/* /opt/bin/ && \
+    ln -s /opt/jdk-16.0.2/bin/* /opt/bin/ && \
     chmod a+rx /opt/bin/*
 
 # Lua-specific
@@ -249,7 +249,7 @@ if [ "$PS1" ]; then
     export LANGUAGE=C.UTF-8
     export LC_ALL=C.UTF-8
     export LDLIBS="-lcrypt -lcs50 -lm"
-    export JAVA_HOME="/opt/jdk-12"
+    export JAVA_HOME="/opt/jdk-16.0.2"
     export PYTHONDONTWRITEBYTECODE="1"
     export VALGRIND_OPTS="--memcheck:leak-check=full --memcheck:show-leak-kinds=all --memcheck:track-origins=yes"
 
