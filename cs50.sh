@@ -146,6 +146,8 @@ pip3 install \
         pandas \
         render50==5.1.0 \
         virtualenv
+        sympy \
+        scipy \
 
 # Install Heroku CLI
 curl https://cli-assets.heroku.com/install.sh | sh
