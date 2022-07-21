@@ -5,3 +5,4 @@ EXPOSE 8787
 
 COPY cs50.sh /tmp/
 RUN bash /tmp/cs50.sh && rm -f /tmp/cs50.sh
+USER ubuntu
