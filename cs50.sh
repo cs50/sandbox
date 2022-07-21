@@ -161,13 +161,13 @@ gem install \
 update-alternatives --install /usr/bin/lua lua-interpreter /usr/bin/lua5.3 130 --slave /usr/share/man/man1/lua.1.gz lua-manual /usr/share/man/man1/lua5.3.1.gz
 update-alternatives --install /usr/bin/luac lua-compiler /usr/bin/luac5.3 130 --slave /usr/share/man/man1/luac.1.gz lua-compiler-manual /usr/share/man/man1/luac5.3.1.gz
 
-# # LÖVE-specific
-# # https://bitbucket.org/rude/love/downloads/
-# wget -P /tmp https://bitbucket.org/rude/love/downloads/love_0.10.2ppa1_amd64.deb && \
-#     wget -P /tmp https://bitbucket.org/rude/love/downloads/liblove0_0.10.2ppa1_amd64.deb && \
-#     (dpkg -i /tmp/love_0.10.2ppa1_amd64.deb /tmp/liblove0_0.10.2ppa1_amd64.deb || true) && \
-#     DEBIAN_FRONTEND=noninteractive apt-get -f install -y && \
-#     rm -f /tmp/love_0.10.2ppa1_amd64.deb /tmp/liblove0_0.10.2ppa1_amd64.deb
+# LÖVE-specific
+# https://github.com/love2d/love/releases
+wget -P /tmp https://github.com/love2d/love/releases/download/0.10.2/love_0.10.2ppa1_amd64.deb && \
+    wget -P /tmp https://github.com/love2d/love/releases/download/0.10.2/liblove0_0.10.2ppa1_amd64.deb && \
+    (dpkg -i /tmp/love_0.10.2ppa1_amd64.deb /tmp/liblove0_0.10.2ppa1_amd64.deb || true) && \
+    DEBIAN_FRONTEND=noninteractive apt-get -f install -y && \
+    rm -f /tmp/love_0.10.2ppa1_amd64.deb /tmp/liblove0_0.10.2ppa1_amd64.deb
 
 # R-specific
 # https://www.rstudio.com/products/rstudio/download-server/
