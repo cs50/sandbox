@@ -1,38 +1,45 @@
 #!/bin/bash
 set -eo pipefail
 
-# Install Python 3.9
+# Suggested build environment for Python, per pyenv, even though we're building ourselves
+# https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+apt update && \
+    DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends --yes \
+        make build-essential libssl-dev zlib1g-dev \
+        libbz2-dev libreadline-dev libsqlite3-dev llvm ca-certificates curl wget unzip \
+        libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+
+# Install Python 3.10.x
 # https://www.python.org/downloads/
-# https://stackoverflow.com/a/44758621/5156190
-apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        build-essential \
-        libbz2-dev \
-        libc6-dev \
-        libffi-dev `# For ctypes module` \
-        libgdbm-dev \
-        libncursesw5-dev \
-        libreadline-gplv2-dev \
-        libsqlite3-dev \
-        libssl-dev \
-        tk-dev \
-        wget \
-        zlib1g-dev && \
-    cd /tmp && \
-    wget https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz && \
-    tar xzf Python-3.9.6.tgz && \
-    rm -f Python-3.9.6.tgz && \
-    cd Python-3.9.6 && \
+cd /tmp && \
+    curl https://www.python.org/ftp/python/3.10.5/Python-3.10.5.tgz --output Python-3.10.5.tgz && \
+    tar xzf Python-3.10.5.tgz && \
+    rm --force Python-3.10.5.tgz && \
+    cd Python-3.10.5 && \
     ./configure && \
     make && \
     make install && \
     cd .. && \
-    rm -rf Python-3.9.6 && \
+    rm --force --recursive Python-3.10.5 && \
+    ln --relative --symbolic /usr/local/bin/pip3 /usr/local/bin/pip && \
+    ln --relative --symbolic /usr/local/bin/python3 /usr/local/bin/python && \
     pip3 install --upgrade pip
+
+# Install Ruby 3.1.x
+# https://www.ruby-lang.org/en/downloads/
+cd /tmp && \
+    curl https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.2.tar.gz --output ruby-3.1.2.tar.gz && \
+    tar xzf ruby-3.1.2.tar.gz && \
+    rm --force ruby-3.1.2.tar.gz && \
+    cd ruby-3.1.2 && \
+    ./configure && \
+    make && \
+    make install && \
+    cd .. && \
+    rm --force --recursive ruby-3.1.2
 
 # Ubuntu-specific
 apt-get update && \
-    apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         apt-file \
         apt-transport-https \
@@ -89,29 +96,16 @@ apt-get update && \
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash -e && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs
 
-# Install Java 16.x
-# http://jdk.java.net/16/
+# Install Java 18.x
+# http://jdk.java.net/18/
 cd /tmp && \
-    wget https://download.java.net/java/GA/jdk16.0.2/d4a915d82b4c4fbb9bde534da945d746/7/GPL/openjdk-16.0.2_linux-x64_bin.tar.gz && \
-    tar xzf openjdk-16.0.2_linux-x64_bin.tar.gz && \
-    rm -f openjdk-16.0.2_linux-x64_bin.tar.gz && \
-    mv jdk-16.0.2 /opt/ && \
-    mkdir -p /opt/bin && \
-    ln -s /opt/jdk-16.0.2/bin/* /opt/bin/ && \
+    wget https://download.java.net/java/GA/jdk18.0.1.1/65ae32619e2f40f3a9af3af1851d6e19/2/GPL/openjdk-18.0.1.1_linux-x64_bin.tar.gz && \
+    tar xzf openjdk-18.0.1.1_linux-x64_bin.tar.gz && \
+    rm --force openjdk-18.0.1.1_linux-x64_bin.tar.gz && \
+    mv jdk-18.0.1.1 /opt/ && \
+    mkdir --parent /opt/bin && \
+    ln --symbolic /opt/jdk-18.0.1.1/bin/* /opt/bin/ && \
     chmod a+rx /opt/bin/*
-
-# Lua-specific
-# https://askubuntu.com/a/1035151
-update-alternatives --install /usr/bin/lua lua-interpreter /usr/bin/lua5.3 130 --slave /usr/share/man/man1/lua.1.gz lua-manual /usr/share/man/man1/lua5.3.1.gz
-update-alternatives --install /usr/bin/luac lua-compiler /usr/bin/luac5.3 130 --slave /usr/share/man/man1/luac.1.gz lua-compiler-manual /usr/share/man/man1/luac5.3.1.gz
-
-# LÖVE-specific
-# https://bitbucket.org/rude/love/downloads/
-wget -P /tmp https://bitbucket.org/rude/love/downloads/love_0.10.2ppa1_amd64.deb && \
-    wget -P /tmp https://bitbucket.org/rude/love/downloads/liblove0_0.10.2ppa1_amd64.deb && \
-    (dpkg -i /tmp/love_0.10.2ppa1_amd64.deb /tmp/liblove0_0.10.2ppa1_amd64.deb || true) && \
-    DEBIAN_FRONTEND=noninteractive apt-get -f install -y && \
-    rm -f /tmp/love_0.10.2ppa1_amd64.deb /tmp/liblove0_0.10.2ppa1_amd64.deb
 
 # Install Node.js 16.x
 # https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions-enterprise-linux-fedora-and-snap-packages
@@ -131,20 +125,20 @@ cd /tmp && \
 
 # Install CS50 packages
 pip3 install \
-        check50==3.3.3 \
-        cs50==7.0.2 \
+        check50 \
+        cs50 \
         Flask \
         Flask-Session \
-        style50==2.7.5 \
-        submit50==3.1.0
+        style50 \
+        submit50
 pip3 install \
         awscli \
-        compare50==1.2.4 \
-        help50==3.0.5 \
+        compare50 \
+        help50 \
         matplotlib \
         numpy \
         pandas \
-        render50==5.1.0 \
+        render50 \
         virtualenv
 
 # Install Heroku CLI
@@ -157,14 +151,26 @@ gem install \
     asciidoctor \
     bundler \
     fpm \
-    github-pages \
+    github-pages:224 \
     jekyll \
     jekyll-asciidoc \
     pygments.rb
 
+# Lua-specific
+# https://askubuntu.com/a/1035151
+update-alternatives --install /usr/bin/lua lua-interpreter /usr/bin/lua5.3 130 --slave /usr/share/man/man1/lua.1.gz lua-manual /usr/share/man/man1/lua5.3.1.gz
+update-alternatives --install /usr/bin/luac lua-compiler /usr/bin/luac5.3 130 --slave /usr/share/man/man1/luac.1.gz lua-compiler-manual /usr/share/man/man1/luac5.3.1.gz
+
+# # LÖVE-specific
+# # https://bitbucket.org/rude/love/downloads/
+# wget -P /tmp https://bitbucket.org/rude/love/downloads/love_0.10.2ppa1_amd64.deb && \
+#     wget -P /tmp https://bitbucket.org/rude/love/downloads/liblove0_0.10.2ppa1_amd64.deb && \
+#     (dpkg -i /tmp/love_0.10.2ppa1_amd64.deb /tmp/liblove0_0.10.2ppa1_amd64.deb || true) && \
+#     DEBIAN_FRONTEND=noninteractive apt-get -f install -y && \
+#     rm -f /tmp/love_0.10.2ppa1_amd64.deb /tmp/liblove0_0.10.2ppa1_amd64.deb
+
 # R-specific
 # https://www.rstudio.com/products/rstudio/download-server/
-mkdir -p /root/sandbox
 echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" > /etc/apt/sources.list.d/cran.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
     apt-get update && \
@@ -199,9 +205,17 @@ curl -s https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | b
 (update-alternatives --remove-all clang || true) && \
     update-alternatives --install /usr/bin/clang clang $(which clang-8) 1
 
+# Ubuntu-specific
+useradd --home-dir /home/ubuntu/sandbox --shell /bin/bash ubuntu && \
+   umask 0077 && \
+   mkdir -p /home/ubuntu && \
+   chown -R ubuntu:ubuntu /home/ubuntu && \
+   echo "ubuntu:crimson" | chpasswd
+
 # Bash-specific
-mkdir -p /root/.bashrcs
-cat <<'EOF' > /root/.bashrcs/~cs50.sh
+mkdir -p /home/ubuntu/sandbox
+mkdir -p /home/ubuntu/.bashrcs
+cat <<'EOF' > /home/ubuntu/.bashrcs/~cs50.sh
 # File mode creation mask
 if [ "$(id -u)" != "0" ]; then
     umask 0077
@@ -285,6 +299,7 @@ fi
 
 # cmd
 EOF
+chmod a+rwx /home/ubuntu/*
 
 # /opt/cs50/bin
 mkdir -p /opt/cs50/bin
@@ -378,10 +393,3 @@ fuser --kill "${port//[^0-9]}/tcp" &> /dev/null
 unbuffer "$(npm prefix -g)/bin/http-server" $a $c $cors $i $port $options | unbuffer -p sed "s#\(.*http://\)[^:]\+\(:.\+\)#\1localhost\2#" | uniq
 EOF
 chmod a+rx /opt/cs50/bin/*
-
-# Ubuntu-specific
-#useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
-#    umask 0077 && \
-#    mkdir -p /home/ubuntu && \
-#    chown -R ubuntu:ubuntu /home/ubuntu && \
-#    echo "ubuntu:crimson" | chpasswd
