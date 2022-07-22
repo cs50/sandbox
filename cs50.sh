@@ -391,5 +391,4 @@ chmod a+rx /opt/cs50/bin/*
 useradd --home-dir /home/ubuntu/sandbox --shell /bin/bash ubuntu && \
    umask 0077 && \
    mkdir -p /home/ubuntu && \
-   chown -R ubuntu:ubuntu /home/ubuntu && \
-   echo "ubuntu:crimson" | chpasswd
+   chown -R ubuntu:ubuntu /home/ubuntu
