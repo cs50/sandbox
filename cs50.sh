@@ -205,13 +205,6 @@ curl -s https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | b
 (update-alternatives --remove-all clang || true) && \
     update-alternatives --install /usr/bin/clang clang $(which clang-8) 1
 
-# Ubuntu-specific
-useradd --home-dir /home/ubuntu/sandbox --shell /bin/bash ubuntu && \
-   umask 0077 && \
-   mkdir -p /home/ubuntu && \
-   chown -R ubuntu:ubuntu /home/ubuntu && \
-   echo "ubuntu:crimson" | chpasswd
-
 # Bash-specific
 mkdir -p /home/ubuntu/sandbox
 mkdir -p /home/ubuntu/.bashrcs
@@ -393,3 +386,10 @@ fuser --kill "${port//[^0-9]}/tcp" &> /dev/null
 unbuffer "$(npm prefix -g)/bin/http-server" $a $c $cors $i $port $options | unbuffer -p sed "s#\(.*http://\)[^:]\+\(:.\+\)#\1localhost\2#" | uniq
 EOF
 chmod a+rx /opt/cs50/bin/*
+
+# Ubuntu-specific
+useradd --home-dir /home/ubuntu/sandbox --shell /bin/bash ubuntu && \
+   umask 0077 && \
+   mkdir -p /home/ubuntu && \
+   chown -R ubuntu:ubuntu /home/ubuntu && \
+   echo "ubuntu:crimson" | chpasswd
