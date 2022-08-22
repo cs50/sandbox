@@ -1,7 +1,14 @@
 # Testing
 
+Build and run:
 ```
-make
+make build
+make run
+```
+
+Rebuild:
+```
+make rebuild
 ```
 
 # References
